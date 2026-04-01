@@ -261,6 +261,7 @@ Just-in-time decryption delivery engine
 | `commandList()` | List available commands |
 | `deliver(json)` | Decrypt recipient and deliver a message |
 | `health()` | Server health check |
+| `notifyEvent(channel, subject, body)` | Trigger a notification on a pre-configured channel (e.g. rotation/expiry alerts) |
 | `ping()` | Connectivity check |
 
 ### `db.chronicle`

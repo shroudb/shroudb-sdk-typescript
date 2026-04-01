@@ -53,3 +53,11 @@ export interface CourierHealthResponse {
   status: string;
 }
 
+/** Response from `courier.NOTIFY_EVENT()`. */
+export interface CourierNotifyEventResponse {
+  channel: string;
+  delivered_at: number;
+  delivery_id: string;
+  status: string;
+}
+

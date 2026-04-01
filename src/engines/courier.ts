@@ -66,6 +66,15 @@ export class CourierNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.CourierHealthResponse>;
   }
 
+  /** NOTIFY_EVENT — Trigger a notification on a pre-configured channel (e.g. rotation/expiry alerts) */
+  async notifyEvent(channel: string, subject: string, body: string): Promise<types.CourierNotifyEventResponse> {
+    const args: string[] = ["NOTIFY_EVENT"];
+    args.push(String(channel));
+    args.push(String(subject));
+    args.push(String(body));
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.CourierNotifyEventResponse>;
+  }
+
   /** PING — Connectivity check */
   async ping(): Promise<CommandResult> {
     const args: string[] = ["PING"];

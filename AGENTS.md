@@ -242,6 +242,7 @@ const { status, count, paths } = await db.keep.list('prefix');
 | `commandList` | `` | `{ commands, count }` | List available commands |
 | `deliver` | `json` | `{ channel, delivered_at, delivery_id, status }` | Decrypt recipient and deliver a message |
 | `health` | `` | `{ channels, status }` | Server health check |
+| `notifyEvent` | `channel, subject, body` | `{ channel, delivered_at, delivery_id, status }` | Trigger a notification on a pre-configured channel (e.g. rotation/expiry alerts) |
 | `ping` | `` | `{}` | Connectivity check |
 
 ### Examples
