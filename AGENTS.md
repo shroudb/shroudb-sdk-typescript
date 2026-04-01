@@ -275,6 +275,26 @@ const { status } = await db.chronicle.ingest({ /* fields */ });
 const { ingested, status } = await db.chronicle.ingestBatch({ /* fields */ });
 ```
 
+## `db.stash` — Encrypted blob storage with S3 backend and envelope encryption
+
+| Method | Args | Returns | Description |
+|--------|------|---------|-------------|
+| `command` | `` | `{}` | List supported commands |
+| `health` | `` | `{}` | Health check |
+| `inspect` | `id` | `{ blob_status, client_encrypted, content_type, created_at, encrypted_size, id, key_version, keyring, plaintext_size, status, updated_at, viewer_count }` | Read blob metadata without downloading or decrypting |
+| `ping` | `` | `{}` | Ping-pong |
+| `retrieve` | `id` | `{}` | Retrieve and decrypt a blob |
+| `revoke` | `id, options?` | `{ id, revoke_mode, status }` | Revoke a blob (hard crypto-shred by default, SOFT for soft revoke) |
+| `store` | `id, data_b64, options?` | `{ client_encrypted, encrypted_size, id, key_version, keyring, plaintext_size, s3_key, status }` | Store an encrypted blob |
+
+### Examples
+
+```typescript
+const { blob_status, client_encrypted, content_type, created_at, encrypted_size, id, key_version, keyring, plaintext_size, status, updated_at, viewer_count } = await db.stash.inspect('alice');
+await db.stash.retrieve('alice');
+const { id, revoke_mode, status } = await db.stash.revoke('alice');
+```
+
 ## Error Handling
 
 All methods throw `ShrouDBError` on failure. The `code` property matches the server error code (e.g., `NOTFOUND`, `DENIED`, `BADARG`).
@@ -336,6 +356,12 @@ try {
 | `VERSION_NOTFOUND` | Requested version does not exist |
 | `ADAPTER` | Delivery adapter failure |
 | `DECRYPT` | Cipher decryption failed |
+| `CIPHER_UNAVAILABLE` | Cipher engine not available for envelope encryption |
+| `CRYPTO` | Encryption or decryption failed |
+| `INVALID_ARGUMENT` | Invalid argument |
+| `OBJECT_STORE` | S3 object store operation failed |
+| `REVOKED` | Blob has been soft-revoked |
+| `SHREDDED` | Blob has been crypto-shredded (unrecoverable) |
 
 ## Common Mistakes
 

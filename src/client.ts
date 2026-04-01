@@ -12,6 +12,7 @@ import { ForgeNamespace } from './engines/forge.js';
 import { KeepNamespace } from './engines/keep.js';
 import { CourierNamespace } from './engines/courier.js';
 import { ChronicleNamespace } from './engines/chronicle.js';
+import { StashNamespace } from './engines/stash.js';
 
 export interface ShrouDBOptions {
   /**
@@ -44,6 +45,8 @@ export interface ShrouDBOptions {
   courier?: string;
   /** Direct chronicle URI (overrides Moat for this engine). */
   chronicle?: string;
+  /** Direct stash URI (overrides Moat for this engine). */
+  stash?: string;
 }
 
 /**
@@ -65,6 +68,7 @@ export class ShrouDB {
   public readonly keep: KeepNamespace;
   public readonly courier: CourierNamespace;
   public readonly chronicle: ChronicleNamespace;
+  public readonly stash: StashNamespace;
 
   private transports: Transport[] = [];
 
@@ -83,6 +87,7 @@ export class ShrouDB {
         prefixes.set("keep", "/v1/keep");
         prefixes.set("courier", "/v1/courier");
         prefixes.set("chronicle", "/v1/chronicle");
+        prefixes.set("stash", "/v1/stash");
         defaultTransport = new HttpTransport(options.moat, options.token, prefixes);
       } else {
         defaultTransport = new MoatResp3Transport(options.moat);
@@ -178,6 +183,16 @@ export class ShrouDB {
       this.chronicle = new ChronicleNamespace(defaultTransport, "chronicle");
     } else {
       this.chronicle = new ChronicleNamespace({ execute: () => { throw new Error('No transport configured for chronicle. Provide a moat URL or chronicle URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "chronicle");
+    }
+
+    if (options.stash) {
+      const t = new Resp3Transport(options.stash);
+      this.transports.push(t);
+      this.stash = new StashNamespace(t, "stash");
+    } else if (defaultTransport) {
+      this.stash = new StashNamespace(defaultTransport, "stash");
+    } else {
+      this.stash = new StashNamespace({ execute: () => { throw new Error('No transport configured for stash. Provide a moat URL or stash URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "stash");
     }
 
   }

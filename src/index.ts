@@ -11,6 +11,7 @@ export { ForgeNamespace } from './engines/forge.js';
 export { KeepNamespace } from './engines/keep.js';
 export { CourierNamespace } from './engines/courier.js';
 export { ChronicleNamespace } from './engines/chronicle.js';
+export { StashNamespace } from './engines/stash.js';
 
 export type * from './types/shroudb.js';
 export type * from './types/cipher.js';
@@ -21,3 +22,4 @@ export type * from './types/forge.js';
 export type * from './types/keep.js';
 export type * from './types/courier.js';
 export type * from './types/chronicle.js';
+export type * from './types/stash.js';

@@ -14,6 +14,10 @@ export const ErrorCode = {
   BAD_ARG: "BAD_ARG",
   /** Required engine capability not available (e.g., Cipher for PII fields) */
   CAPABILITY_MISSING: "CAPABILITY_MISSING",
+  /** Cipher engine not available for envelope encryption */
+  CIPHER_UNAVAILABLE: "CIPHER_UNAVAILABLE",
+  /** Encryption or decryption failed */
+  CRYPTO: "CRYPTO",
   /** Cipher decryption failed */
   DECRYPT: "DECRYPT",
   /** Secret has been soft-deleted */
@@ -34,6 +38,8 @@ export const ErrorCode = {
   IMPORT_FAILED: "IMPORT_FAILED",
   /** Unexpected server error */
   INTERNAL: "INTERNAL",
+  /** Invalid argument */
+  INVALID_ARGUMENT: "INVALID_ARGUMENT",
   /** Field value is invalid or field cannot be updated via this path */
   INVALID_FIELD: "INVALID_FIELD",
   /** Token is invalid, expired, or revoked */
@@ -56,18 +62,24 @@ export const ErrorCode = {
   NOT_FOUND: "NOT_FOUND",
   /** Server is not in READY state */
   NOT_READY: "NOT_READY",
+  /** S3 object store operation failed */
+  OBJECT_STORE: "OBJECT_STORE",
   /** Pipeline command failed, all commands rolled back */
   PIPELINE_ABORTED: "PIPELINE_ABORTED",
   /** Operation denied by keyring policy */
   POLICY: "POLICY",
   /** Key version is retired — use REWRAP */
   RETIRED: "RETIRED",
+  /** Blob has been soft-revoked */
+  REVOKED: "REVOKED",
   /** Schema already exists */
   SCHEMA_EXISTS: "SCHEMA_EXISTS",
   /** Schema does not exist */
   SCHEMA_NOT_FOUND: "SCHEMA_NOT_FOUND",
   /** Schema definition is invalid */
   SCHEMA_VALIDATION: "SCHEMA_VALIDATION",
+  /** Blob has been crypto-shredded (unrecoverable) */
+  SHREDDED: "SHREDDED",
   /** Failed to sign decision */
   SIGNING: "SIGNING",
   /** Backend storage error */
