@@ -3,11 +3,14 @@
     "target": "ES2022",
     "module": "Node16",
     "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
     "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "moduleResolution": "Node16"
+    "moduleResolution": "Node16",
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src"]
 }

@@ -1,20 +1,26 @@
 {
   "name": "@shroudb/sdk",
-  "version": "0.1.0",
-  "description": "TypeScript SDK for ShrouDB — typed clients for all engines",
-  "type": "module",
+  "version": "1.0.0",
+  "description": "ShrouDB unified SDK — shroudb, cipher, sigil, veil, sentry, forge, keep, courier, chronicle",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
     "build": "tsc",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "postinstall": "node postinstall.js"
   },
   "license": "MIT",
-  "devDependencies": {
-    "typescript": "^5.0.0"
+  "engines": {
+    "node": ">=18"
   },
-  "files": [
-    "dist/",
-    "src/"
-  ]
+  "devDependencies": {
+    "@types/node": "^22",
+    "typescript": "^5"
+  }
 }
