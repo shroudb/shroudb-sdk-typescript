@@ -63,10 +63,10 @@ export class KeepNamespace {
   }
 
   /** PUT — Store a new version of a secret. Creates the secret if it doesn't exist. Undeletes if soft-deleted. */
-  async put(path: string, value: string): Promise<types.KeepPutResponse> {
+  async put(path: string, value: string | Uint8Array): Promise<types.KeepPutResponse> {
     const args: string[] = ["PUT"];
     args.push(String(path));
-    args.push(String(value));
+    args.push(typeof value === 'string' ? value : Buffer.from(value).toString('base64'));
     return this.transport.execute(this.engine, args) as unknown as Promise<types.KeepPutResponse>;
   }
 

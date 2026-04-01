@@ -25,12 +25,12 @@ export class CipherNamespace {
   }
 
   /** DECRYPT — Decrypt ciphertext using the embedded key version */
-  async decrypt(keyring: string, ciphertext: string, options?: {
+  async decrypt(keyring: string, ciphertext: string | Uint8Array, options?: {
     context?: string;
   }): Promise<types.CipherDecryptResponse> {
     const args: string[] = ["DECRYPT"];
     args.push(String(keyring));
-    args.push(String(ciphertext));
+    args.push(typeof ciphertext === 'string' ? ciphertext : Buffer.from(ciphertext).toString('base64'));
     if (options) {
       if (options.context !== undefined) { args.push("CONTEXT"); args.push(String(options.context)); }
     }
@@ -38,14 +38,14 @@ export class CipherNamespace {
   }
 
   /** ENCRYPT — Encrypt plaintext with the active key version */
-  async encrypt(keyring: string, plaintext: string, options?: {
+  async encrypt(keyring: string, plaintext: string | Uint8Array, options?: {
     context?: string;
     key_version?: number;
     convergent?: boolean;
   }): Promise<types.CipherEncryptResponse> {
     const args: string[] = ["ENCRYPT"];
     args.push(String(keyring));
-    args.push(String(plaintext));
+    args.push(typeof plaintext === 'string' ? plaintext : Buffer.from(plaintext).toString('base64'));
     if (options) {
       if (options.context !== undefined) { args.push("CONTEXT"); args.push(String(options.context)); }
       if (options.key_version !== undefined) { args.push("KEY_VERSION"); args.push(String(options.key_version)); }
@@ -109,12 +109,12 @@ export class CipherNamespace {
   }
 
   /** REWRAP — Re-encrypt ciphertext with the current active key version */
-  async rewrap(keyring: string, ciphertext: string, options?: {
+  async rewrap(keyring: string, ciphertext: string | Uint8Array, options?: {
     context?: string;
   }): Promise<types.CipherRewrapResponse> {
     const args: string[] = ["REWRAP"];
     args.push(String(keyring));
-    args.push(String(ciphertext));
+    args.push(typeof ciphertext === 'string' ? ciphertext : Buffer.from(ciphertext).toString('base64'));
     if (options) {
       if (options.context !== undefined) { args.push("CONTEXT"); args.push(String(options.context)); }
     }
@@ -136,18 +136,18 @@ export class CipherNamespace {
   }
 
   /** SIGN — Create a detached signature */
-  async sign(keyring: string, data: string): Promise<types.CipherSignResponse> {
+  async sign(keyring: string, data: string | Uint8Array): Promise<types.CipherSignResponse> {
     const args: string[] = ["SIGN"];
     args.push(String(keyring));
-    args.push(String(data));
+    args.push(typeof data === 'string' ? data : Buffer.from(data).toString('base64'));
     return this.transport.execute(this.engine, args) as unknown as Promise<types.CipherSignResponse>;
   }
 
   /** VERIFY_SIGNATURE — Verify a detached signature */
-  async verifySignature(keyring: string, data: string, signature: string): Promise<types.CipherVerifySignatureResponse> {
+  async verifySignature(keyring: string, data: string | Uint8Array, signature: string): Promise<types.CipherVerifySignatureResponse> {
     const args: string[] = ["VERIFY_SIGNATURE"];
     args.push(String(keyring));
-    args.push(String(data));
+    args.push(typeof data === 'string' ? data : Buffer.from(data).toString('base64'));
     args.push(String(signature));
     return this.transport.execute(this.engine, args) as unknown as Promise<types.CipherVerifySignatureResponse>;
   }
