@@ -49,14 +49,14 @@ export class ForgeNamespace {
 
   /** CA ROTATE — Rotate CA signing key */
   async caRotate(name: string, options?: {
-    force?: unknown;
-    dryrun?: unknown;
+    force?: boolean;
+    dryrun?: boolean;
   }): Promise<types.ForgeCaRotateResponse> {
     const args: string[] = ["CA", "ROTATE"];
     args.push(String(name));
     if (options) {
-      if (options.force !== undefined) { args.push("FORCE"); args.push(String(options.force)); }
-      if (options.dryrun !== undefined) { args.push("DRYRUN"); args.push(String(options.dryrun)); }
+      if (options.force) args.push("FORCE");
+      if (options.dryrun) args.push("DRYRUN");
     }
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ForgeCaRotateResponse>;
   }

@@ -51,13 +51,13 @@ export class SentryNamespace {
 
   /** KEY ROTATE — Rotate the signing key */
   async keyRotate(options?: {
-    FORCE?: unknown;
-    DRYRUN?: unknown;
+    FORCE?: boolean;
+    DRYRUN?: boolean;
   }): Promise<types.SentryKeyRotateResponse> {
     const args: string[] = ["KEY", "ROTATE"];
     if (options) {
-      if (options.FORCE !== undefined) { args.push("FORCE"); args.push(String(options.FORCE)); }
-      if (options.DRYRUN !== undefined) { args.push("DRYRUN"); args.push(String(options.DRYRUN)); }
+      if (options.FORCE) args.push("FORCE");
+      if (options.DRYRUN) args.push("DRYRUN");
     }
     return this.transport.execute(this.engine, args) as unknown as Promise<types.SentryKeyRotateResponse>;
   }

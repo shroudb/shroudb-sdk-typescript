@@ -25,12 +25,12 @@ export class CipherNamespace {
   }
 
   /** DECRYPT — Decrypt ciphertext using the embedded key version */
-  async decrypt(keyring: string, ciphertext: string | Uint8Array, options?: {
+  async decrypt(keyring: string, ciphertext: string, options?: {
     context?: string;
   }): Promise<types.CipherDecryptResponse> {
     const args: string[] = ["DECRYPT"];
     args.push(String(keyring));
-    args.push(typeof ciphertext === 'string' ? ciphertext : Buffer.from(ciphertext).toString('base64'));
+    args.push(String(ciphertext));
     if (options) {
       if (options.context !== undefined) { args.push("CONTEXT"); args.push(String(options.context)); }
     }
@@ -109,12 +109,12 @@ export class CipherNamespace {
   }
 
   /** REWRAP — Re-encrypt ciphertext with the current active key version */
-  async rewrap(keyring: string, ciphertext: string | Uint8Array, options?: {
+  async rewrap(keyring: string, ciphertext: string, options?: {
     context?: string;
   }): Promise<types.CipherRewrapResponse> {
     const args: string[] = ["REWRAP"];
     args.push(String(keyring));
-    args.push(typeof ciphertext === 'string' ? ciphertext : Buffer.from(ciphertext).toString('base64'));
+    args.push(String(ciphertext));
     if (options) {
       if (options.context !== undefined) { args.push("CONTEXT"); args.push(String(options.context)); }
     }

@@ -67,7 +67,7 @@ export class VeilNamespace {
   /** PUT — Store blind tokens for an entry. In standard mode, data_b64 is base64-encoded plaintext (server tokenizes). With BLIND flag, data_b64 is base64-encoded BlindTokenSet JSON (client pre-tokenized, for E2EE). */
   async put(index: string, id: string, data_b64: string, options?: {
     field?: string;
-    blind?: unknown;
+    blind?: boolean;
   }): Promise<types.VeilPutResponse> {
     const args: string[] = ["PUT"];
     args.push(String(index));
@@ -75,7 +75,7 @@ export class VeilNamespace {
     args.push(String(data_b64));
     if (options) {
       if (options.field !== undefined) { args.push("FIELD"); args.push(String(options.field)); }
-      if (options.blind !== undefined) { args.push("BLIND"); args.push(String(options.blind)); }
+      if (options.blind) args.push("BLIND");
     }
     return this.transport.execute(this.engine, args) as unknown as Promise<types.VeilPutResponse>;
   }
@@ -85,7 +85,7 @@ export class VeilNamespace {
     mode?: string;
     field?: string;
     limit?: number;
-    blind?: unknown;
+    blind?: boolean;
   }): Promise<types.VeilSearchResponse> {
     const args: string[] = ["SEARCH"];
     args.push(String(index));
@@ -94,7 +94,7 @@ export class VeilNamespace {
       if (options.mode !== undefined) { args.push("MODE"); args.push(String(options.mode)); }
       if (options.field !== undefined) { args.push("FIELD"); args.push(String(options.field)); }
       if (options.limit !== undefined) { args.push("LIMIT"); args.push(String(options.limit)); }
-      if (options.blind !== undefined) { args.push("BLIND"); args.push(String(options.blind)); }
+      if (options.blind) args.push("BLIND");
     }
     return this.transport.execute(this.engine, args) as unknown as Promise<types.VeilSearchResponse>;
   }

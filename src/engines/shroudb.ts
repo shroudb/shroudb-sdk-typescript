@@ -48,7 +48,7 @@ export class ShroudbNamespace {
   }
 
   /** GET — Retrieve the value at a key */
-  async get(namespace: string, key: string, META?: unknown, options?: {
+  async get(namespace: string, key: string, META?: boolean, options?: {
     version?: number;
   }): Promise<types.ShroudbGetResponse> {
     const args: string[] = ["GET"];
@@ -116,7 +116,7 @@ export class ShroudbNamespace {
   }
 
   /** NAMESPACE DROP — Drop a namespace */
-  async namespaceDrop(name: string, FORCE?: unknown): Promise<CommandResult> {
+  async namespaceDrop(name: string, FORCE?: boolean): Promise<CommandResult> {
     const args: string[] = ["NAMESPACE", "DROP"];
     args.push(String(name));
     if (FORCE !== undefined) args.push(String(FORCE));
