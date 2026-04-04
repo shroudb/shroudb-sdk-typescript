@@ -6,6 +6,14 @@ dual transport support (RESP3 for direct connections, HTTP for Moat gateway).
 
 ## Installation
 
+Configure the GitHub Packages npm registry (one-time setup):
+
+```bash
+echo "@shroudb:registry=https://npm.pkg.github.com" >> .npmrc
+```
+
+Then install:
+
 ```bash
 npm install @shroudb/sdk
 ```
