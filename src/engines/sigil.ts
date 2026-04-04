@@ -24,7 +24,7 @@ export class SigilNamespace {
 
   /** CREDENTIAL IMPORT — Import a pre-hashed credential (bcrypt, scrypt, argon2). Transparently rehashed to Argon2id on next verify. */
   async credentialImport(schema: string, id: string, field: string, hash: string, options?: {
-    metadata?: Record<string, unknown>;
+    meta?: Record<string, unknown>;
   }): Promise<types.SigilCredentialImportResponse> {
     const args: string[] = ["CREDENTIAL", "IMPORT"];
     args.push(String(schema));
@@ -32,7 +32,7 @@ export class SigilNamespace {
     args.push(String(field));
     args.push(String(hash));
     if (options) {
-      if (options.metadata !== undefined) { args.push("METADATA"); args.push(typeof options.metadata === 'string' ? options.metadata : JSON.stringify(options.metadata)); }
+      if (options.meta !== undefined) { args.push("META"); args.push(typeof options.meta === 'string' ? options.meta : JSON.stringify(options.meta)); }
     }
     return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilCredentialImportResponse>;
   }
@@ -134,14 +134,14 @@ export class SigilNamespace {
 
   /** PASSWORD IMPORT — Sugar: import pre-hashed password. Infers credential field from schema. Equivalent to CREDENTIAL IMPORT with implicit field. */
   async passwordImport(schema: string, id: string, hash: string, options?: {
-    metadata?: Record<string, unknown>;
+    meta?: Record<string, unknown>;
   }): Promise<types.SigilPasswordImportResponse> {
     const args: string[] = ["PASSWORD", "IMPORT"];
     args.push(String(schema));
     args.push(String(id));
     args.push(String(hash));
     if (options) {
-      if (options.metadata !== undefined) { args.push("METADATA"); args.push(typeof options.metadata === 'string' ? options.metadata : JSON.stringify(options.metadata)); }
+      if (options.meta !== undefined) { args.push("META"); args.push(typeof options.meta === 'string' ? options.meta : JSON.stringify(options.meta)); }
     }
     return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilPasswordImportResponse>;
   }
@@ -178,14 +178,14 @@ export class SigilNamespace {
 
   /** SESSION CREATE — Verify credentials and issue access + refresh tokens */
   async sessionCreate(schema: string, id: string, password: string, options?: {
-    metadata?: Record<string, unknown>;
+    meta?: Record<string, unknown>;
   }): Promise<types.SigilSessionCreateResponse> {
     const args: string[] = ["SESSION", "CREATE"];
     args.push(String(schema));
     args.push(String(id));
     args.push(String(password));
     if (options) {
-      if (options.metadata !== undefined) { args.push("METADATA"); args.push(typeof options.metadata === 'string' ? options.metadata : JSON.stringify(options.metadata)); }
+      if (options.meta !== undefined) { args.push("META"); args.push(typeof options.meta === 'string' ? options.meta : JSON.stringify(options.meta)); }
     }
     return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilSessionCreateResponse>;
   }
