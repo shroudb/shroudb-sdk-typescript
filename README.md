@@ -108,11 +108,11 @@ Encrypted key-value database
 | `auth(token)` | Authenticate the connection with a token |
 | `commandList()` | List all supported commands |
 | `configGet(key)` | Read a runtime configuration value |
-| `configSet(key, value)` | Set a runtime configuration value (admin only) |
+| `configSet(key, value)` | Set a runtime configuration value (admin only). Only registered config keys are accepted; unknown keys return an error. Values are type-checked against the key's schema (u64, bool, string). Valid keys: max_segment_bytes, max_segment_entries, snapshot_entry_threshold, snapshot_time_threshold_secs. |
 | `delete(namespace, key)` | Delete a key by writing a tombstone |
 | `get(namespace, key, META, options?)` | Retrieve the value at a key |
 | `health()` | Check server health |
-| `list(namespace, options?)` | List active keys in a namespace |
+| `list(namespace, options?)` | List active keys in a namespace. Returns an error if the CURSOR value does not correspond to a key that exists in the namespace. |
 | `namespaceAlter(name, options?)` | Update namespace configuration (enforce-on-write-only) |
 | `namespaceCreate(name, options?)` | Create a new namespace |
 | `namespaceDrop(name, FORCE)` | Drop a namespace |
@@ -218,6 +218,7 @@ sentry
 | `policyCreate(name, json)` | Create a new authorization policy |
 | `policyDelete(name)` | Delete a policy |
 | `policyGet(name)` | Get a policy by name |
+| `policyHistory(name)` | Get version history of a policy (all past versions plus current) |
 | `policyList()` | List all policy names |
 | `policyUpdate(name, json)` | Update an existing policy |
 
@@ -232,6 +233,8 @@ Internal certificate authority engine
 | `caInfo(name)` | Get CA metadata and key version status |
 | `caList()` | List all Certificate Authorities |
 | `caRotate(name, options?)` | Rotate CA signing key |
+| `configGet(key)` | Get a runtime configuration value |
+| `configSet(key, value)` | Set a runtime configuration value (only scheduler_interval_secs is mutable) |
 | `inspect(ca, serial)` | Get certificate details |
 | `issue(ca, subject, profile, options?)` | Issue a new certificate. Returns cert + private key (private key never stored). |
 | `issueFromCsr(ca, csr_pem, profile, options?)` | Issue a certificate from a PEM-encoded CSR |
@@ -269,7 +272,10 @@ Just-in-time decryption delivery engine
 | `channelList()` | List all channels |
 | `commandList()` | List available commands |
 | `deliver(json)` | Decrypt recipient and deliver a message |
+| `deliveryGet(id)` | Get a delivery receipt by ID |
+| `deliveryList(options?)` | List delivery receipts, optionally filtered by channel |
 | `health()` | Server health check |
+| `metrics()` | Get delivery metrics (total, success, failure counts, per-channel breakdown) |
 | `notifyEvent(channel, subject, body)` | Trigger a notification on a pre-configured channel (e.g. rotation/expiry alerts) |
 | `ping()` | Connectivity check |
 
@@ -289,6 +295,7 @@ Structured audit event engine
 | `ingestBatch(events_json)` | Ingest multiple events in a single call |
 | `ping()` | Keepalive |
 | `query(options?)` | Query events with filter predicates |
+| `verify()` | Verify the cryptographic hash chain integrity of all events. Returns the number of verified events or an error if tampering is detected. |
 
 ### `db.stash`
 

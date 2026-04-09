@@ -90,6 +90,13 @@ export class SentryNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.SentryPolicyGetResponse>;
   }
 
+  /** POLICY HISTORY — Get version history of a policy (all past versions plus current) */
+  async policyHistory(name: string): Promise<types.SentryPolicyHistoryResponse> {
+    const args: string[] = ["POLICY", "HISTORY"];
+    args.push(String(name));
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.SentryPolicyHistoryResponse>;
+  }
+
   /** POLICY LIST — List all policy names */
   async policyList(): Promise<types.SentryPolicyListResponse> {
     const args: string[] = ["POLICY", "LIST"];

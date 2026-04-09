@@ -98,4 +98,10 @@ export class ChronicleNamespace {
     }
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ChronicleQueryResponse>;
   }
+
+  /** VERIFY — Verify the cryptographic hash chain integrity of all events. Returns the number of verified events or an error if tampering is detected. */
+  async verify(): Promise<types.ChronicleVerifyResponse> {
+    const args: string[] = ["VERIFY"];
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.ChronicleVerifyResponse>;
+  }
 }

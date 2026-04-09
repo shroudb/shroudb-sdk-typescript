@@ -58,6 +58,7 @@ export interface SentryPolicyCreateResponse {
   name: string;
   priority: number;
   status: string;
+  version: number;
 }
 
 /** Response from `sentry.POLICY_DELETE()`. */
@@ -67,13 +68,26 @@ export interface SentryPolicyDeleteResponse {
 
 /** Response from `sentry.POLICY_GET()`. */
 export interface SentryPolicyGetResponse {
+  action: unknown;
+  conditions: unknown;
   created_at: number;
   description: string;
   effect: string;
   name: string;
+  principal: unknown;
   priority: number;
+  resource: unknown;
   status: string;
   updated_at: number;
+  version: number;
+}
+
+/** Response from `sentry.POLICY_HISTORY()`. */
+export interface SentryPolicyHistoryResponse {
+  count: number;
+  name: string;
+  status: string;
+  versions: unknown[];
 }
 
 /** Response from `sentry.POLICY_LIST()`. */
@@ -90,5 +104,6 @@ export interface SentryPolicyUpdateResponse {
   priority: number;
   status: string;
   updated_at: number;
+  version: number;
 }
 

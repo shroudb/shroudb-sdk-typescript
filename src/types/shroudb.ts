@@ -14,6 +14,7 @@ export interface ShroudbCommandListResponse {
 /** Response from `shroudb.CONFIG GET()`. */
 export interface ShroudbConfigGetResponse {
   key: string;
+  source: unknown;
   value: unknown;
 }
 

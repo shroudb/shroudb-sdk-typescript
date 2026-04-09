@@ -61,6 +61,21 @@ export class ForgeNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ForgeCaRotateResponse>;
   }
 
+  /** CONFIG GET — Get a runtime configuration value */
+  async configGet(key: string): Promise<types.ForgeConfigGetResponse> {
+    const args: string[] = ["CONFIG", "GET"];
+    args.push(String(key));
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.ForgeConfigGetResponse>;
+  }
+
+  /** CONFIG SET — Set a runtime configuration value (only scheduler_interval_secs is mutable) */
+  async configSet(key: string, value: string): Promise<types.ForgeConfigSetResponse> {
+    const args: string[] = ["CONFIG", "SET"];
+    args.push(String(key));
+    args.push(String(value));
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.ForgeConfigSetResponse>;
+  }
+
   /** INSPECT — Get certificate details */
   async inspect(ca: string, serial: string): Promise<types.ForgeInspectResponse> {
     const args: string[] = ["INSPECT"];

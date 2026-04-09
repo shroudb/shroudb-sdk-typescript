@@ -46,3 +46,10 @@ export interface ChronicleQueryResponse {
   events: unknown[];
 }
 
+/** Response from `chronicle.VERIFY()`. */
+export interface ChronicleVerifyResponse {
+  status: string;
+  total: number;
+  verified: number;
+}
+

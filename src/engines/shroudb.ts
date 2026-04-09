@@ -31,7 +31,7 @@ export class ShroudbNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ShroudbConfigGetResponse>;
   }
 
-  /** CONFIG SET — Set a runtime configuration value (admin only) */
+  /** CONFIG SET — Set a runtime configuration value (admin only). Only registered config keys are accepted; unknown keys return an error. Values are type-checked against the key's schema (u64, bool, string). Valid keys: max_segment_bytes, max_segment_entries, snapshot_entry_threshold, snapshot_time_threshold_secs. */
   async configSet(key: string, value: string): Promise<CommandResult> {
     const args: string[] = ["CONFIG", "SET"];
     args.push(String(key));
@@ -67,7 +67,7 @@ export class ShroudbNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ShroudbHealthResponse>;
   }
 
-  /** LIST — List active keys in a namespace */
+  /** LIST — List active keys in a namespace. Returns an error if the CURSOR value does not correspond to a key that exists in the namespace. */
   async list(namespace: string, options?: {
     prefix?: string;
     cursor?: string;

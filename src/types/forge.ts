@@ -33,6 +33,20 @@ export interface ForgeCaRotateResponse {
   rotated: boolean;
 }
 
+/** Response from `forge.CONFIG_GET()`. */
+export interface ForgeConfigGetResponse {
+  key: string;
+  status: string;
+  value: unknown;
+}
+
+/** Response from `forge.CONFIG_SET()`. */
+export interface ForgeConfigSetResponse {
+  key: string;
+  status: string;
+  value: string;
+}
+
 /** Response from `forge.INSPECT()`. */
 export interface ForgeInspectResponse {
   certificate_pem: string;

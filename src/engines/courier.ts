@@ -60,10 +60,36 @@ export class CourierNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.CourierDeliverResponse>;
   }
 
+  /** DELIVERY GET — Get a delivery receipt by ID */
+  async deliveryGet(id: string): Promise<types.CourierDeliveryGetResponse> {
+    const args: string[] = ["DELIVERY", "GET"];
+    args.push(String(id));
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.CourierDeliveryGetResponse>;
+  }
+
+  /** DELIVERY LIST — List delivery receipts, optionally filtered by channel */
+  async deliveryList(options?: {
+    CHANNEL?: string;
+    LIMIT?: number;
+  }): Promise<types.CourierDeliveryListResponse> {
+    const args: string[] = ["DELIVERY", "LIST"];
+    if (options) {
+      if (options.CHANNEL !== undefined) { args.push("CHANNEL"); args.push(String(options.CHANNEL)); }
+      if (options.LIMIT !== undefined) { args.push("LIMIT"); args.push(String(options.LIMIT)); }
+    }
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.CourierDeliveryListResponse>;
+  }
+
   /** HEALTH — Server health check */
   async health(): Promise<types.CourierHealthResponse> {
     const args: string[] = ["HEALTH"];
     return this.transport.execute(this.engine, args) as unknown as Promise<types.CourierHealthResponse>;
+  }
+
+  /** METRICS — Get delivery metrics (total, success, failure counts, per-channel breakdown) */
+  async metrics(): Promise<types.CourierMetricsResponse> {
+    const args: string[] = ["METRICS"];
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.CourierMetricsResponse>;
   }
 
   /** NOTIFY_EVENT — Trigger a notification on a pre-configured channel (e.g. rotation/expiry alerts) */

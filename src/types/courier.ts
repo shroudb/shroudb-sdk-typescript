@@ -47,10 +47,34 @@ export interface CourierDeliverResponse {
   status: string;
 }
 
+/** Response from `courier.DELIVERY_GET()`. */
+export interface CourierDeliveryGetResponse {
+  channel: string;
+  delivered_at: number;
+  delivery_id: string;
+  error: string;
+  status: string;
+}
+
+/** Response from `courier.DELIVERY_LIST()`. */
+export interface CourierDeliveryListResponse {
+  count: number;
+  receipts: unknown[];
+  status: string;
+}
+
 /** Response from `courier.HEALTH()`. */
 export interface CourierHealthResponse {
   channels: number;
   status: string;
+}
+
+/** Response from `courier.METRICS()`. */
+export interface CourierMetricsResponse {
+  delivered: number;
+  failed: number;
+  per_channel: unknown;
+  total_deliveries: number;
 }
 
 /** Response from `courier.NOTIFY_EVENT()`. */
