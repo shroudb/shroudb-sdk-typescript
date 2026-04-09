@@ -62,6 +62,13 @@ export class KeepNamespace {
     return this.transport.execute(this.engine, args);
   }
 
+  /** PURGE — Permanently remove a secret and all its versions. Irreversible — used for GDPR right-to-erasure compliance. After purge, GET returns not-found (not deleted). */
+  async purge(path: string): Promise<types.KeepPurgeResponse> {
+    const args: string[] = ["PURGE"];
+    args.push(String(path));
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.KeepPurgeResponse>;
+  }
+
   /** PUT — Store a new version of a secret. Creates the secret if it doesn't exist. Undeletes if soft-deleted. */
   async put(path: string, value: string | Uint8Array): Promise<types.KeepPutResponse> {
     const args: string[] = ["PUT"];

@@ -40,6 +40,13 @@ export interface KeepListResponse {
   paths: unknown[];
 }
 
+/** Response from `keep.purge()`. */
+export interface KeepPurgeResponse {
+  status: string;
+  path: string;
+  purged_at: unknown;
+}
+
 /** Response from `keep.put()`. */
 export interface KeepPutResponse {
   status: string;
