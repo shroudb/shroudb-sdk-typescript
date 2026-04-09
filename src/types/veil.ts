@@ -27,6 +27,14 @@ export interface VeilIndexCreateResponse {
   status: unknown;
   index: unknown;
   created_at: unknown;
+  tokenizer_version: unknown;
+}
+
+/** Response from `veil.INDEX_DESTROY()`. */
+export interface VeilIndexDestroyResponse {
+  status: unknown;
+  index: unknown;
+  deleted_entries: unknown;
 }
 
 /** Response from `veil.INDEX_INFO()`. */
@@ -34,12 +42,36 @@ export interface VeilIndexInfoResponse {
   index: unknown;
   created_at: unknown;
   entry_count: unknown;
+  tokenizer_version: unknown;
 }
 
 /** Response from `veil.INDEX_LIST()`. */
 export interface VeilIndexListResponse {
   items: string;
   type: unknown[];
+}
+
+/** Response from `veil.INDEX_RECONCILE()`. */
+export interface VeilIndexReconcileResponse {
+  status: unknown;
+  index: unknown;
+  orphans_removed: unknown;
+}
+
+/** Response from `veil.INDEX_REINDEX()`. */
+export interface VeilIndexReindexResponse {
+  status: unknown;
+  index: unknown;
+  tokenizer_version: unknown;
+  entries_cleared: unknown;
+}
+
+/** Response from `veil.INDEX_ROTATE()`. */
+export interface VeilIndexRotateResponse {
+  status: unknown;
+  index: unknown;
+  rotated_at: unknown;
+  entry_count: unknown;
 }
 
 /** Response from `veil.PING()`. */

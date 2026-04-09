@@ -141,9 +141,13 @@ const { status } = await db.sigil.credentialReset('myapp', 'alice', 'email', 'ne
 | `commandList` | `` | `{ count, commands }` | List all supported commands |
 | `delete` | `index, id` | `{ status, id }` | Remove an entry's blind tokens from the index |
 | `health` | `` | `{ status }` | Health check |
-| `indexCreate` | `name` | `{ status, index, created_at }` | Create a new blind index with a fresh HMAC key |
-| `indexInfo` | `name` | `{ index, created_at, entry_count }` | Get information about a blind index |
+| `indexCreate` | `name` | `{ status, index, created_at, tokenizer_version }` | Create a new blind index with a fresh HMAC key |
+| `indexDestroy` | `name` | `{ status, index, deleted_entries }` | Crypto-shred an index: zeroize the HMAC key, delete all entries, and remove the index. After destruction, the index name can be reused. |
+| `indexInfo` | `name` | `{ index, created_at, entry_count, tokenizer_version }` | Get information about a blind index |
 | `indexList` | `` | `{ items, type }` | List all blind index names |
+| `indexReconcile` | `name, valid_ids` | `{ status, index, orphans_removed }` | Remove orphaned entries from the index. Compares stored entry IDs against the provided valid set and deletes any entries not in the set. |
+| `indexReindex` | `name` | `{ status, index, tokenizer_version, entries_cleared }` | Clear all entries and update the tokenizer version to current. The HMAC key is preserved. After reindex, the application must re-submit all entries via PUT. Use this when the tokenizer algorithm has been upgraded. |
+| `indexRotate` | `name` | `{ status, index, rotated_at, entry_count }` | Rotate an index's HMAC key. Generates a new key, deletes all existing entries. The application must re-index all entries after rotation. |
 | `ping` | `` | `{ type, value }` | Ping-pong |
 | `put` | `index, id, data_b64, options?` | `{ status, id, version }` | Store blind tokens for an entry. In standard mode, data_b64 is base64-encoded plaintext (server tokenizes). With BLIND flag, data_b64 is base64-encoded BlindTokenSet JSON (client pre-tokenized, for E2EE). |
 | `search` | `index, query, options?` | `{ status, scanned, matched, results }` | Search a blind index. In standard mode, query is plain text (server tokenizes). With BLIND flag, query is base64-encoded BlindTokenSet JSON (client pre-tokenized, for E2EE). |
@@ -153,8 +157,8 @@ const { status } = await db.sigil.credentialReset('myapp', 'alice', 'email', 'ne
 
 ```typescript
 const { status, id } = await db.veil.delete('index', 'alice');
-const { status, index, created_at } = await db.veil.indexCreate('my-keyring');
-const { index, created_at, entry_count } = await db.veil.indexInfo('my-keyring');
+const { status, index, created_at, tokenizer_version } = await db.veil.indexCreate('my-keyring');
+const { status, index, deleted_entries } = await db.veil.indexDestroy('my-keyring');
 ```
 
 ## `db.sentry` — sentry

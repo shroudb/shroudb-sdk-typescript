@@ -45,6 +45,13 @@ export class VeilNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.VeilIndexCreateResponse>;
   }
 
+  /** INDEX DESTROY — Crypto-shred an index: zeroize the HMAC key, delete all entries, and remove the index. After destruction, the index name can be reused. */
+  async indexDestroy(name: string): Promise<types.VeilIndexDestroyResponse> {
+    const args: string[] = ["INDEX", "DESTROY"];
+    args.push(String(name));
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.VeilIndexDestroyResponse>;
+  }
+
   /** INDEX INFO — Get information about a blind index */
   async indexInfo(name: string): Promise<types.VeilIndexInfoResponse> {
     const args: string[] = ["INDEX", "INFO"];
@@ -56,6 +63,28 @@ export class VeilNamespace {
   async indexList(): Promise<types.VeilIndexListResponse> {
     const args: string[] = ["INDEX", "LIST"];
     return this.transport.execute(this.engine, args) as unknown as Promise<types.VeilIndexListResponse>;
+  }
+
+  /** INDEX RECONCILE — Remove orphaned entries from the index. Compares stored entry IDs against the provided valid set and deletes any entries not in the set. */
+  async indexReconcile(name: string, valid_ids: unknown): Promise<types.VeilIndexReconcileResponse> {
+    const args: string[] = ["INDEX", "RECONCILE"];
+    args.push(String(name));
+    args.push(String(valid_ids));
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.VeilIndexReconcileResponse>;
+  }
+
+  /** INDEX REINDEX — Clear all entries and update the tokenizer version to current. The HMAC key is preserved. After reindex, the application must re-submit all entries via PUT. Use this when the tokenizer algorithm has been upgraded. */
+  async indexReindex(name: string): Promise<types.VeilIndexReindexResponse> {
+    const args: string[] = ["INDEX", "REINDEX"];
+    args.push(String(name));
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.VeilIndexReindexResponse>;
+  }
+
+  /** INDEX ROTATE — Rotate an index's HMAC key. Generates a new key, deletes all existing entries. The application must re-index all entries after rotation. */
+  async indexRotate(name: string): Promise<types.VeilIndexRotateResponse> {
+    const args: string[] = ["INDEX", "ROTATE"];
+    args.push(String(name));
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.VeilIndexRotateResponse>;
   }
 
   /** PING — Ping-pong */
