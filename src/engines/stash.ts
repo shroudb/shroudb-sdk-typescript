@@ -55,6 +55,13 @@ export class StashNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.StashRevokeResponse>;
   }
 
+  /** REWRAP — Re-wrap a blob's DEK under the current Cipher key version. The blob ciphertext is not re-encrypted — only the key wrapping changes. */
+  async rewrap(id: string): Promise<types.StashRewrapResponse> {
+    const args: string[] = ["REWRAP"];
+    args.push(String(id));
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.StashRewrapResponse>;
+  }
+
   /** STORE — Store an encrypted blob */
   async store(id: string, data_b64: string, options?: {
     client_encrypted?: string;

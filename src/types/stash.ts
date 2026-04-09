@@ -23,6 +23,14 @@ export interface StashRevokeResponse {
   status: string;
 }
 
+/** Response from `stash.rewrap()`. */
+export interface StashRewrapResponse {
+  id: string;
+  key_version: number;
+  status: string;
+  updated_at: number;
+}
+
 /** Response from `stash.store()`. */
 export interface StashStoreResponse {
   client_encrypted: boolean;
