@@ -294,6 +294,7 @@ const { ingested, status } = await db.chronicle.ingestBatch({ /* fields */ });
 | Method | Args | Returns | Description |
 |--------|------|---------|-------------|
 | `command` | `` | `{}` | List supported commands |
+| `fingerprint` | `id, viewer_id, options?` | `{ created_at, s3_key, status, viewer_id }` | Create a viewer-specific encrypted copy of a blob for leak tracing |
 | `health` | `` | `{}` | Health check |
 | `inspect` | `id` | `{ blob_status, client_encrypted, content_type, created_at, encrypted_size, id, key_version, keyring, plaintext_size, status, updated_at, viewer_count }` | Read blob metadata without downloading or decrypting |
 | `list` | `options?` | `{ blobs, count, status, tenant }` | List blobs for the current tenant |
@@ -302,13 +303,14 @@ const { ingested, status } = await db.chronicle.ingestBatch({ /* fields */ });
 | `revoke` | `id, options?` | `{ id, revoke_mode, status }` | Revoke a blob (hard crypto-shred by default, SOFT for soft revoke) |
 | `rewrap` | `id` | `{ id, key_version, status, updated_at }` | Re-wrap a blob's DEK under the current Cipher key version. The blob ciphertext is not re-encrypted — only the key wrapping changes. |
 | `store` | `id, data_b64, options?` | `{ client_encrypted, encrypted_size, id, key_version, keyring, plaintext_size, s3_key, status }` | Store an encrypted blob |
+| `trace` | `id` | `{ blob_status, id, status, viewer_count, viewers }` | Return the viewer map (who has copies) for a blob |
 
 ### Examples
 
 ```typescript
+const { created_at, s3_key, status, viewer_id } = await db.stash.fingerprint('alice', 'viewer_id');
 const { blob_status, client_encrypted, content_type, created_at, encrypted_size, id, key_version, keyring, plaintext_size, status, updated_at, viewer_count } = await db.stash.inspect('alice');
 await db.stash.retrieve('alice');
-const { id, revoke_mode, status } = await db.stash.revoke('alice');
 ```
 
 ## Error Handling
@@ -373,7 +375,9 @@ try {
 | `ADAPTER` | Delivery adapter failure |
 | `DECRYPT` | Cipher decryption failed |
 | `CIPHER_UNAVAILABLE` | Cipher engine not available for envelope encryption |
+| `CLIENT_ENCRYPTED` | Cannot fingerprint a client-encrypted blob (client manages encryption) |
 | `CRYPTO` | Encryption or decryption failed |
+| `DUPLICATE_VIEWER` | Viewer already has a fingerprinted copy of this blob |
 | `INVALID_ARGUMENT` | Invalid argument |
 | `OBJECT_STORE` | S3 object store operation failed |
 | `REVOKED` | Blob has been soft-revoked |

@@ -17,6 +17,19 @@ export class StashNamespace {
     return this.transport.execute(this.engine, args);
   }
 
+  /** FINGERPRINT — Create a viewer-specific encrypted copy of a blob for leak tracing */
+  async fingerprint(id: string, viewer_id: string, options?: {
+    params?: string;
+  }): Promise<types.StashFingerprintResponse> {
+    const args: string[] = ["FINGERPRINT"];
+    args.push(String(id));
+    args.push(String(viewer_id));
+    if (options) {
+      if (options.params !== undefined) { args.push("PARAMS"); args.push(String(options.params)); }
+    }
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.StashFingerprintResponse>;
+  }
+
   /** HEALTH — Health check */
   async health(): Promise<CommandResult> {
     const args: string[] = ["HEALTH"];
@@ -88,5 +101,12 @@ export class StashNamespace {
       if (options.keyring !== undefined) { args.push("KEYRING"); args.push(String(options.keyring)); }
     }
     return this.transport.execute(this.engine, args) as unknown as Promise<types.StashStoreResponse>;
+  }
+
+  /** TRACE — Return the viewer map (who has copies) for a blob */
+  async trace(id: string): Promise<types.StashTraceResponse> {
+    const args: string[] = ["TRACE"];
+    args.push(String(id));
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.StashTraceResponse>;
   }
 }

@@ -16,6 +16,8 @@ export const ErrorCode = {
   CAPABILITY_MISSING: "CAPABILITY_MISSING",
   /** Cipher engine not available for envelope encryption */
   CIPHER_UNAVAILABLE: "CIPHER_UNAVAILABLE",
+  /** Cannot fingerprint a client-encrypted blob (client manages encryption) */
+  CLIENT_ENCRYPTED: "CLIENT_ENCRYPTED",
   /** Encryption or decryption failed */
   CRYPTO: "CRYPTO",
   /** Cipher decryption failed */
@@ -26,6 +28,8 @@ export const ErrorCode = {
   DENIED: "DENIED",
   /** Keyring is disabled */
   DISABLED: "DISABLED",
+  /** Viewer already has a fingerprinted copy of this blob */
+  DUPLICATE_VIEWER: "DUPLICATE_VIEWER",
   /** Encryption or decryption failed */
   ENCRYPTION: "ENCRYPTION",
   /** Entity already exists */
