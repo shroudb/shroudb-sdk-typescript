@@ -50,6 +50,8 @@ export interface StashRewrapResponse {
 /** Response from `stash.store()`. */
 export interface StashStoreResponse {
   client_encrypted: boolean;
+  content_hash: unknown;
+  deduplicated: boolean;
   encrypted_size: number;
   id: string;
   key_version: number;

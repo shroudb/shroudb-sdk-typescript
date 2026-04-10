@@ -302,7 +302,7 @@ const { ingested, status } = await db.chronicle.ingestBatch({ /* fields */ });
 | `retrieve` | `id` | `{}` | Retrieve and decrypt a blob |
 | `revoke` | `id, options?` | `{ id, revoke_mode, status }` | Revoke a blob (hard crypto-shred by default, SOFT for soft revoke) |
 | `rewrap` | `id` | `{ id, key_version, status, updated_at }` | Re-wrap a blob's DEK under the current Cipher key version. The blob ciphertext is not re-encrypted — only the key wrapping changes. |
-| `store` | `id, data_b64, options?` | `{ client_encrypted, encrypted_size, id, key_version, keyring, plaintext_size, s3_key, status }` | Store an encrypted blob |
+| `store` | `id, data_b64, options?` | `{ client_encrypted, content_hash, deduplicated, encrypted_size, id, key_version, keyring, plaintext_size, s3_key, status }` | Store an encrypted blob |
 | `trace` | `id` | `{ blob_status, id, status, viewer_count, viewers }` | Return the viewer map (who has copies) for a blob |
 
 ### Examples
