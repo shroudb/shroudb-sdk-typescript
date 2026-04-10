@@ -1,6 +1,6 @@
 {
   "name": "@shroudb/sdk",
-  "version": "1.5.2",
+  "version": "1.5.1",
   "description": "ShrouDB unified SDK — shroudb, cipher, sigil, veil, sentry, forge, keep, courier, chronicle, stash",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
