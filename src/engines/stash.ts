@@ -30,6 +30,17 @@ export class StashNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.StashInspectResponse>;
   }
 
+  /** LIST — List blobs for the current tenant */
+  async list(options?: {
+    limit?: number;
+  }): Promise<types.StashListResponse> {
+    const args: string[] = ["LIST"];
+    if (options) {
+      if (options.limit !== undefined) { args.push("LIMIT"); args.push(String(options.limit)); }
+    }
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.StashListResponse>;
+  }
+
   /** PING — Ping-pong */
   async ping(): Promise<CommandResult> {
     const args: string[] = ["PING"];

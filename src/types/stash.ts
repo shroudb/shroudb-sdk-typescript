@@ -16,6 +16,14 @@ export interface StashInspectResponse {
   viewer_count: number;
 }
 
+/** Response from `stash.list()`. */
+export interface StashListResponse {
+  blobs: unknown[];
+  count: number;
+  status: string;
+  tenant: string;
+}
+
 /** Response from `stash.revoke()`. */
 export interface StashRevokeResponse {
   id: string;

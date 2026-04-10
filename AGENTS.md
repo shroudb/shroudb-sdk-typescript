@@ -294,6 +294,7 @@ const { ingested, status } = await db.chronicle.ingestBatch({ /* fields */ });
 | `command` | `` | `{}` | List supported commands |
 | `health` | `` | `{}` | Health check |
 | `inspect` | `id` | `{ blob_status, client_encrypted, content_type, created_at, encrypted_size, id, key_version, keyring, plaintext_size, status, updated_at, viewer_count }` | Read blob metadata without downloading or decrypting |
+| `list` | `options?` | `{ blobs, count, status, tenant }` | List blobs for the current tenant |
 | `ping` | `` | `{}` | Ping-pong |
 | `retrieve` | `id` | `{}` | Retrieve and decrypt a blob |
 | `revoke` | `id, options?` | `{ id, revoke_mode, status }` | Revoke a blob (hard crypto-shred by default, SOFT for soft revoke) |
