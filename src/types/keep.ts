@@ -54,6 +54,13 @@ export interface KeepPutResponse {
   version: string;
 }
 
+/** Response from `keep.rekey()`. */
+export interface KeepRekeyResponse {
+  status: string;
+  rekeyed_secrets: number;
+  rekeyed_versions: number;
+}
+
 /** Response from `keep.rotate()`. */
 export interface KeepRotateResponse {
   status: string;

@@ -77,6 +77,13 @@ export class KeepNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.KeepPutResponse>;
   }
 
+  /** REKEY — Re-encrypt all secrets with a new master key. Iterates all secrets (including deleted ones), decrypts every version with the current master key, re-encrypts with the new key, and switches to the new key for all future operations. */
+  async rekey(new_key: string): Promise<types.KeepRekeyResponse> {
+    const args: string[] = ["REKEY"];
+    args.push(String(new_key));
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.KeepRekeyResponse>;
+  }
+
   /** ROTATE — Re-encrypt the latest version with a new nonce. Creates a new version with the same plaintext. */
   async rotate(path: string): Promise<types.KeepRotateResponse> {
     const args: string[] = ["ROTATE"];
