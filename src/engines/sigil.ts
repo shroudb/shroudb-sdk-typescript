@@ -155,6 +155,21 @@ export class SigilNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilPasswordResetResponse>;
   }
 
+  /** SCHEMA ALTER — Add or remove fields from a schema, producing a new version. Added fields are optional (required=false). Existing envelopes remain readable. */
+  async schemaAlter(name: string, action: string, options?: {
+    field_json?: Record<string, unknown>;
+    field_name?: string;
+  }): Promise<types.SigilSchemaAlterResponse> {
+    const args: string[] = ["SCHEMA", "ALTER"];
+    args.push(String(name));
+    args.push(String(action));
+    if (options) {
+      if (options.field_json !== undefined) { args.push("FIELD_JSON"); args.push(typeof options.field_json === 'string' ? options.field_json : JSON.stringify(options.field_json)); }
+      if (options.field_name !== undefined) { args.push("FIELD_NAME"); args.push(String(options.field_name)); }
+    }
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilSchemaAlterResponse>;
+  }
+
   /** SCHEMA GET — Get a schema definition by name */
   async schemaGet(name: string): Promise<types.SigilSchemaGetResponse> {
     const args: string[] = ["SCHEMA", "GET"];

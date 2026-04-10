@@ -87,6 +87,13 @@ export interface SigilPasswordResetResponse {
   status: string;
 }
 
+/** Response from `sigil.SCHEMA_ALTER()`. */
+export interface SigilSchemaAlterResponse {
+  fields: number;
+  name: string;
+  version: number;
+}
+
 /** Response from `sigil.SCHEMA_GET()`. */
 export interface SigilSchemaGetResponse {
   schema: unknown;
