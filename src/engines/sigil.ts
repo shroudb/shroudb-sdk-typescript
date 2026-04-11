@@ -191,7 +191,7 @@ export class SigilNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilSchemaRegisterResponse>;
   }
 
-  /** SESSION CREATE — Verify credentials and issue access + refresh tokens */
+  /** SESSION CREATE — Verify credentials and issue access + refresh tokens. Fields annotated with claim=true are auto-included in the JWT from the entity's envelope. Enriched claim values override caller-provided META for the same key. */
   async sessionCreate(schema: string, id: string, password: string, options?: {
     meta?: Record<string, unknown>;
   }): Promise<types.SigilSessionCreateResponse> {
@@ -213,7 +213,7 @@ export class SigilNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilSessionListResponse>;
   }
 
-  /** SESSION REFRESH — Rotate refresh token and issue new access token */
+  /** SESSION REFRESH — Rotate refresh token and issue new access token. Fields annotated with claim=true are re-read from the entity's current envelope, so refreshed tokens reflect the latest values (e.g. role changes). */
   async sessionRefresh(schema: string, token: string): Promise<types.SigilSessionRefreshResponse> {
     const args: string[] = ["SESSION", "REFRESH"];
     args.push(String(schema));
