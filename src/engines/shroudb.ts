@@ -177,6 +177,18 @@ export class ShroudbNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ShroudbPutResponse>;
   }
 
+  /** REKEY — Begin online rekey (zero-downtime master key rotation) */
+  async rekey(): Promise<types.ShroudbRekeyResponse> {
+    const args: string[] = ["REKEY"];
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.ShroudbRekeyResponse>;
+  }
+
+  /** REKEY STATUS — Query progress of an in-flight rekey operation */
+  async rekeyStatus(): Promise<types.ShroudbRekeyStatusResponse> {
+    const args: string[] = ["REKEY", "STATUS"];
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.ShroudbRekeyStatusResponse>;
+  }
+
   /** SUBSCRIBE — Subscribe to change events on a namespace */
   async subscribe(namespace: string, options?: {
     key?: string;

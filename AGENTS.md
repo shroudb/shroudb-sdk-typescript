@@ -52,6 +52,8 @@ await db.close();
 | `ping` | `` | `{ message }` | Test connectivity |
 | `pipeline` | `count` | `{}` | Execute commands atomically (all succeed or all roll back) |
 | `put` | `namespace, key, value?, options?` | `{ version }` | Store a value at the given key. Auto-increments version. |
+| `rekey` | `` | `{ message }` | Begin online rekey (zero-downtime master key rotation) |
+| `rekeyStatus` | `` | `{ in_progress, progress, segments_completed, started_at, total_segments }` | Query progress of an in-flight rekey operation |
 | `subscribe` | `namespace, options?` | `{}` | Subscribe to change events on a namespace |
 | `unsubscribe` | `` | `{}` | End the current subscription |
 | `versions` | `namespace, key, options?` | `{ versions }` | Retrieve version history for a key (most recent first) |

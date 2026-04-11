@@ -71,6 +71,20 @@ export interface ShroudbPutResponse {
   version: number;
 }
 
+/** Response from `shroudb.REKEY()`. */
+export interface ShroudbRekeyResponse {
+  message: string;
+}
+
+/** Response from `shroudb.REKEY STATUS()`. */
+export interface ShroudbRekeyStatusResponse {
+  in_progress: boolean;
+  progress: string;
+  segments_completed: number;
+  started_at: number;
+  total_segments: number;
+}
+
 /** Response from `shroudb.VERSIONS()`. */
 export interface ShroudbVersionsResponse {
   versions: unknown[];
