@@ -2,7 +2,7 @@
 
 /** Known ShrouDB error codes. */
 export const ErrorCode = {
-  /** Account locked after too many failed attempts. Only emitted for credential fields with the default lockout=true annotation. */
+  /** Account locked after too many failed attempts. Only emitted for credential fields whose CredentialPolicy carries a non-null LockoutPolicy. */
   ACCOUNT_LOCKED: "ACCOUNT_LOCKED",
   /** Delivery adapter failure */
   ADAPTER: "ADAPTER",

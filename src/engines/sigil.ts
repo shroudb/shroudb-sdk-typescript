@@ -47,7 +47,7 @@ export class SigilNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilCredentialResetResponse>;
   }
 
-  /** ENVELOPE CREATE — Create an envelope with field routing per schema annotations */
+  /** ENVELOPE CREATE — Create an envelope with field routing per schema kind */
   async envelopeCreate(schema: string, id: string, json: Record<string, unknown>): Promise<types.SigilEnvelopeCreateResponse> {
     const args: string[] = ["ENVELOPE", "CREATE"];
     args.push(String(schema));
