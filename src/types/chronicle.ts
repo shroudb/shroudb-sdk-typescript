@@ -2,7 +2,8 @@
 
 /** Response from `chronicle.ACTORS()`. */
 export interface ChronicleActorsResponse {
-  entries: unknown[];
+  actors: unknown[];
+  status: string;
 }
 
 /** Response from `chronicle.AUTH()`. */
@@ -10,24 +11,34 @@ export interface ChronicleAuthResponse {
   status: string;
 }
 
+/** Response from `chronicle.COMMAND_LIST()`. */
+export interface ChronicleCommandListResponse {
+  commands: unknown[];
+}
+
 /** Response from `chronicle.COUNT()`. */
 export interface ChronicleCountResponse {
   count: number;
+  scanned: number;
+  status: string;
 }
 
 /** Response from `chronicle.ERRORS()`. */
 export interface ChronicleErrorsResponse {
-  entries: unknown[];
+  errors: unknown[];
+  status: string;
 }
 
 /** Response from `chronicle.HEALTH()`. */
 export interface ChronicleHealthResponse {
+  events: number;
   status: string;
 }
 
 /** Response from `chronicle.HOTSPOTS()`. */
 export interface ChronicleHotspotsResponse {
-  entries: unknown[];
+  hotspots: unknown[];
+  status: string;
 }
 
 /** Response from `chronicle.INGEST()`. */
@@ -44,10 +55,14 @@ export interface ChronicleIngestBatchResponse {
 /** Response from `chronicle.QUERY()`. */
 export interface ChronicleQueryResponse {
   events: unknown[];
+  matched: number;
+  scanned: number;
+  status: string;
 }
 
 /** Response from `chronicle.VERIFY()`. */
 export interface ChronicleVerifyResponse {
+  per_tenant: Record<string, unknown>;
   status: string;
   total: number;
   verified: number;

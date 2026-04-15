@@ -272,17 +272,18 @@ const { channel_type, created_at, enabled, name } = await db.courier.channelGet(
 
 | Method | Args | Returns | Description |
 |--------|------|---------|-------------|
-| `actors` | `options?` | `{ entries }` | Active actors in time window |
+| `actors` | `options?` | `{ actors, status }` | Top 20 actors by event count in the given time window |
 | `auth` | `token` | `{ status }` | Authenticate this connection |
-| `count` | `options?` | `{ count }` | Count events matching filter predicates |
-| `errors` | `options?` | `{ entries }` | Error rates by action |
-| `health` | `` | `{ status }` | Health check |
-| `hotspots` | `options?` | `{ entries }` | Top actors by event volume |
+| `commandList` | `` | `{ commands }` | List available commands |
+| `count` | `options?` | `{ count, scanned, status }` | Count events matching filter predicates |
+| `errors` | `options?` | `{ errors, status }` | Operations ranked by error rate in the given time window |
+| `health` | `` | `{ events, status }` | Health check |
+| `hotspots` | `options?` | `{ hotspots, status }` | Top 20 resources by access count in the given time window |
 | `ingest` | `event_json` | `{ status }` | Ingest a single structured audit event |
 | `ingestBatch` | `events_json` | `{ ingested, status }` | Ingest multiple events in a single call |
 | `ping` | `` | `{}` | Keepalive |
-| `query` | `options?` | `{ events }` | Query events with filter predicates |
-| `verify` | `` | `{ status, total, verified }` | Verify the cryptographic hash chain integrity of all events. Returns the number of verified events or an error if tampering is detected. |
+| `query` | `options?` | `{ events, matched, scanned, status }` | Query events with filter predicates |
+| `verify` | `` | `{ per_tenant, status, total, verified }` | Verify the cryptographic hash chain integrity of all events. Returns per-tenant and aggregate verified counts or an error if tampering is detected. |
 
 ### Examples
 

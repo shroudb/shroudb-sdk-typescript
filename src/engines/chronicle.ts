@@ -11,7 +11,7 @@ export class ChronicleNamespace {
     private readonly engine: string = "chronicle",
   ) {}
 
-  /** ACTORS — Active actors in time window */
+  /** ACTORS — Top 20 actors by event count in the given time window */
   async actors(options?: {
     filter_args?: unknown;
   }): Promise<types.ChronicleActorsResponse> {
@@ -29,6 +29,12 @@ export class ChronicleNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ChronicleAuthResponse>;
   }
 
+  /** COMMAND LIST — List available commands */
+  async commandList(): Promise<types.ChronicleCommandListResponse> {
+    const args: string[] = ["COMMAND", "LIST"];
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.ChronicleCommandListResponse>;
+  }
+
   /** COUNT — Count events matching filter predicates */
   async count(options?: {
     filter_args?: unknown;
@@ -40,7 +46,7 @@ export class ChronicleNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ChronicleCountResponse>;
   }
 
-  /** ERRORS — Error rates by action */
+  /** ERRORS — Operations ranked by error rate in the given time window */
   async errors(options?: {
     filter_args?: unknown;
   }): Promise<types.ChronicleErrorsResponse> {
@@ -57,7 +63,7 @@ export class ChronicleNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ChronicleHealthResponse>;
   }
 
-  /** HOTSPOTS — Top actors by event volume */
+  /** HOTSPOTS — Top 20 resources by access count in the given time window */
   async hotspots(options?: {
     filter_args?: unknown;
   }): Promise<types.ChronicleHotspotsResponse> {
@@ -99,7 +105,7 @@ export class ChronicleNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ChronicleQueryResponse>;
   }
 
-  /** VERIFY — Verify the cryptographic hash chain integrity of all events. Returns the number of verified events or an error if tampering is detected. */
+  /** VERIFY — Verify the cryptographic hash chain integrity of all events. Returns per-tenant and aggregate verified counts or an error if tampering is detected. */
   async verify(): Promise<types.ChronicleVerifyResponse> {
     const args: string[] = ["VERIFY"];
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ChronicleVerifyResponse>;

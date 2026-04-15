@@ -39,7 +39,7 @@ const db = new ShrouDB({
   forge: 'shroudb-forge://token@localhost:6699',
   keep: 'shroudb-keep://token@localhost:6899',
   courier: 'shroudb-courier://token@localhost:6999',
-  chronicle: 'chronicle://token@localhost:7099',
+  chronicle: 'chronicle://token@localhost:7199',
   stash: 'shroudb-stash://token@localhost:6399',
 });
 
@@ -294,17 +294,18 @@ Structured audit event engine
 
 | Method | Description |
 |--------|-------------|
-| `actors(options?)` | Active actors in time window |
+| `actors(options?)` | Top 20 actors by event count in the given time window |
 | `auth(token)` | Authenticate this connection |
+| `commandList()` | List available commands |
 | `count(options?)` | Count events matching filter predicates |
-| `errors(options?)` | Error rates by action |
+| `errors(options?)` | Operations ranked by error rate in the given time window |
 | `health()` | Health check |
-| `hotspots(options?)` | Top actors by event volume |
+| `hotspots(options?)` | Top 20 resources by access count in the given time window |
 | `ingest(event_json)` | Ingest a single structured audit event |
 | `ingestBatch(events_json)` | Ingest multiple events in a single call |
 | `ping()` | Keepalive |
 | `query(options?)` | Query events with filter predicates |
-| `verify()` | Verify the cryptographic hash chain integrity of all events. Returns the number of verified events or an error if tampering is detected. |
+| `verify()` | Verify the cryptographic hash chain integrity of all events. Returns per-tenant and aggregate verified counts or an error if tampering is detected. |
 
 ### `db.stash`
 
