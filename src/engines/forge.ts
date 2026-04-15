@@ -19,6 +19,7 @@ export class ForgeNamespace {
     const args: string[] = ["CA", "CREATE"];
     args.push(String(name));
     args.push(String(algorithm));
+    args.push("SUBJECT");
     args.push(String(subject));
     if (options) {
       if (options.ttl_days !== undefined) { args.push("TTL_DAYS"); args.push(String(options.ttl_days)); }
