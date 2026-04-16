@@ -11,6 +11,13 @@ export class StashNamespace {
     private readonly engine: string = "stash",
   ) {}
 
+  /** AUTH — Authenticate this connection with a token */
+  async auth(token: string): Promise<CommandResult> {
+    const args: string[] = ["AUTH"];
+    args.push(String(token));
+    return this.transport.execute(this.engine, args);
+  }
+
   /** COMMAND — List supported commands */
   async command(): Promise<CommandResult> {
     const args: string[] = ["COMMAND"];

@@ -3,7 +3,7 @@
 import type { Transport, CommandResult } from '../transport/interface.js';
 import type * as types from '../types/sentry.js';
 
-/** Sentry — sentry */
+/** Sentry — Policy-based authorization engine */
 export class SentryNamespace {
   /** @internal */
   constructor(

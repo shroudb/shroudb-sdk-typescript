@@ -88,6 +88,8 @@ export const ErrorCode = {
   SIGNING: "SIGNING",
   /** Backend storage error */
   STORAGE: "STORAGE",
+  /** ShrouDB Store (metadata) operation failed */
+  STORE: "STORE",
   /** Refresh token reuse detected — entire family revoked */
   TOKEN_REUSE: "TOKEN_REUSE",
   /** Metadata validation failed against namespace schema */

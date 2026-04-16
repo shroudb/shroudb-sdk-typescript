@@ -11,6 +11,13 @@ export class SigilNamespace {
     private readonly engine: string = "sigil",
   ) {}
 
+  /** AUTH — Authenticate the current TCP connection with a bearer token. Handled at the connection layer, not dispatched to the engine. HTTP transport uses the Authorization: Bearer header instead. */
+  async auth(token: string): Promise<types.SigilAuthResponse> {
+    const args: string[] = ["AUTH"];
+    args.push(String(token));
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilAuthResponse>;
+  }
+
   /** CREDENTIAL CHANGE — Change a credential field (requires old value for verification) */
   async credentialChange(schema: string, id: string, field: string, oldValue: string, newValue: string): Promise<types.SigilCredentialChangeResponse> {
     const args: string[] = ["CREDENTIAL", "CHANGE"];
@@ -81,7 +88,7 @@ export class SigilNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilEnvelopeImportResponse>;
   }
 
-  /** ENVELOPE LOOKUP — Look up an envelope by indexed or searchable field value */
+  /** ENVELOPE LOOKUP — Look up an envelope by indexed or searchable field value. Returns the matched entity ID only. */
   async envelopeLookup(schema: string, field: string, value: string): Promise<types.SigilEnvelopeLookupResponse> {
     const args: string[] = ["ENVELOPE", "LOOKUP"];
     args.push(String(schema));
@@ -116,10 +123,10 @@ export class SigilNamespace {
   }
 
   /** JWKS — Get the JSON Web Key Set for external token verification */
-  async jwks(schema: string): Promise<types.SigilJwksResponse> {
+  async jwks(schema: string): Promise<CommandResult> {
     const args: string[] = ["JWKS"];
     args.push(String(schema));
-    return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilJwksResponse>;
+    return this.transport.execute(this.engine, args);
   }
 
   /** PASSWORD CHANGE — Sugar: change password. Infers credential field from schema. Equivalent to CREDENTIAL CHANGE with implicit field. */
@@ -172,16 +179,16 @@ export class SigilNamespace {
   }
 
   /** SCHEMA GET — Get a schema definition by name */
-  async schemaGet(name: string): Promise<types.SigilSchemaGetResponse> {
+  async schemaGet(name: string): Promise<CommandResult> {
     const args: string[] = ["SCHEMA", "GET"];
     args.push(String(name));
-    return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilSchemaGetResponse>;
+    return this.transport.execute(this.engine, args);
   }
 
   /** SCHEMA LIST — List all registered schema names */
-  async schemaList(): Promise<types.SigilSchemaListResponse> {
+  async schemaList(): Promise<CommandResult> {
     const args: string[] = ["SCHEMA", "LIST"];
-    return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilSchemaListResponse>;
+    return this.transport.execute(this.engine, args);
   }
 
   /** SCHEMA REGISTER — Register a credential envelope schema */
@@ -207,11 +214,26 @@ export class SigilNamespace {
   }
 
   /** SESSION LIST — List active sessions for an entity */
-  async sessionList(schema: string, id: string): Promise<types.SigilSessionListResponse> {
+  async sessionList(schema: string, id: string): Promise<CommandResult> {
     const args: string[] = ["SESSION", "LIST"];
     args.push(String(schema));
     args.push(String(id));
-    return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilSessionListResponse>;
+    return this.transport.execute(this.engine, args);
+  }
+
+  /** SESSION LOGIN — Verify credentials by indexed field value (e.g., email) and issue access + refresh tokens. Same claim enrichment as SESSION CREATE. */
+  async sessionLogin(schema: string, field: string, value: string, password: string, options?: {
+    meta?: Record<string, unknown>;
+  }): Promise<types.SigilSessionLoginResponse> {
+    const args: string[] = ["SESSION", "LOGIN"];
+    args.push(String(schema));
+    args.push(String(field));
+    args.push(String(value));
+    args.push(String(password));
+    if (options) {
+      if (options.meta !== undefined) { args.push("META"); args.push(typeof options.meta === 'string' ? options.meta : JSON.stringify(options.meta)); }
+    }
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilSessionLoginResponse>;
   }
 
   /** SESSION REFRESH — Rotate refresh token and issue new access token. Fields annotated with claim=true are re-read from the entity's current envelope, so refreshed tokens reflect the latest values (e.g. role changes). */
@@ -270,6 +292,15 @@ export class SigilNamespace {
     args.push(String(id));
     args.push(typeof json === 'string' ? json : JSON.stringify(json));
     return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilUserImportResponse>;
+  }
+
+  /** USER LOOKUP — Sugar: look up by indexed or searchable field value. Equivalent to ENVELOPE LOOKUP. */
+  async userLookup(schema: string, field: string, value: string): Promise<types.SigilUserLookupResponse> {
+    const args: string[] = ["USER", "LOOKUP"];
+    args.push(String(schema));
+    args.push(String(field));
+    args.push(String(value));
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilUserLookupResponse>;
   }
 
   /** USER UPDATE — Sugar: update non-credential fields. Equivalent to ENVELOPE UPDATE. */

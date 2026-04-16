@@ -3,7 +3,7 @@
 import type { Transport, CommandResult } from '../transport/interface.js';
 import type * as types from '../types/veil.js';
 
-/** Veil — veil */
+/** Veil — Searchable encryption with blind indexing */
 export class VeilNamespace {
   /** @internal */
   constructor(

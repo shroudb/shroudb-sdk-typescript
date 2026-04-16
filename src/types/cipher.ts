@@ -16,12 +16,16 @@ export interface CipherCommandListResponse {
 
 /** Response from `cipher.decrypt()`. */
 export interface CipherDecryptResponse {
+  /** ok */
+  status: string;
   /** Decrypted data */
   plaintext: string;
 }
 
 /** Response from `cipher.encrypt()`. */
 export interface CipherEncryptResponse {
+  /** ok */
+  status: string;
   /** Encrypted data with embedded key version */
   ciphertext: string;
   /** Key version used for encryption */
@@ -30,6 +34,8 @@ export interface CipherEncryptResponse {
 
 /** Response from `cipher.generate_data_key()`. */
 export interface CipherGenerateDataKeyResponse {
+  /** ok */
+  status: string;
   /** Plaintext DEK (use for local encryption, then discard) */
   plaintext_key: string;
   /** Wrapped DEK (store alongside ciphertext, unwrap via DECRYPT) */
@@ -58,6 +64,8 @@ export interface CipherKeyInfoResponse {
 
 /** Response from `cipher.keyring_create()`. */
 export interface CipherKeyringCreateResponse {
+  /** ok */
+  status: string;
   /** Keyring name */
   keyring: string;
   /** Algorithm */
@@ -68,18 +76,20 @@ export interface CipherKeyringCreateResponse {
 
 /** Response from `cipher.keyring_list()`. */
 export interface CipherKeyringListResponse {
-  /** List of keyring names */
+  /** Bare JSON array of keyring name strings */
   keyrings: unknown[];
 }
 
 /** Response from `cipher.ping()`. */
 export interface CipherPingResponse {
-  /** Always PONG */
-  message: string;
+  /** Always the bare string "PONG" (not wrapped in an object) */
+  pong: string;
 }
 
 /** Response from `cipher.rewrap()`. */
 export interface CipherRewrapResponse {
+  /** ok */
+  status: string;
   /** Re-encrypted ciphertext with new key version */
   ciphertext: string;
   /** New key version used */
@@ -88,6 +98,8 @@ export interface CipherRewrapResponse {
 
 /** Response from `cipher.rotate()`. */
 export interface CipherRotateResponse {
+  /** ok */
+  status: string;
   /** Whether rotation occurred */
   rotated: boolean;
   /** Active key version after operation */
@@ -98,6 +110,8 @@ export interface CipherRotateResponse {
 
 /** Response from `cipher.sign()`. */
 export interface CipherSignResponse {
+  /** ok */
+  status: string;
   /** Hex-encoded detached signature */
   signature: string;
   /** Key version used */
@@ -106,6 +120,8 @@ export interface CipherSignResponse {
 
 /** Response from `cipher.verify_signature()`. */
 export interface CipherVerifySignatureResponse {
+  /** ok */
+  status: string;
   /** Whether the signature is valid */
   valid: boolean;
 }

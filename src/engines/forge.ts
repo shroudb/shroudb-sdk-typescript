@@ -11,6 +11,13 @@ export class ForgeNamespace {
     private readonly engine: string = "forge",
   ) {}
 
+  /** AUTH — Authenticate this connection with a token */
+  async auth(token: string): Promise<types.ForgeAuthResponse> {
+    const args: string[] = ["AUTH"];
+    args.push(String(token));
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.ForgeAuthResponse>;
+  }
+
   /** CA CREATE — Create a new Certificate Authority */
   async caCreate(name: string, algorithm: string, subject: string, options?: {
     ttl_days?: number;
@@ -62,6 +69,12 @@ export class ForgeNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ForgeCaRotateResponse>;
   }
 
+  /** COMMAND — List supported commands */
+  async command(): Promise<types.ForgeCommandResponse> {
+    const args: string[] = ["COMMAND"];
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.ForgeCommandResponse>;
+  }
+
   /** CONFIG GET — Get a runtime configuration value */
   async configGet(key: string): Promise<types.ForgeConfigGetResponse> {
     const args: string[] = ["CONFIG", "GET"];
@@ -75,6 +88,12 @@ export class ForgeNamespace {
     args.push(String(key));
     args.push(String(value));
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ForgeConfigSetResponse>;
+  }
+
+  /** HEALTH — Health check */
+  async health(): Promise<types.ForgeHealthResponse> {
+    const args: string[] = ["HEALTH"];
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.ForgeHealthResponse>;
   }
 
   /** INSPECT — Get certificate details */
@@ -131,6 +150,19 @@ export class ForgeNamespace {
       if (options.offset !== undefined) { args.push("OFFSET"); args.push(String(options.offset)); }
     }
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ForgeListCertsResponse>;
+  }
+
+  /** PING — Liveness probe. Returns PONG. */
+  async ping(): Promise<types.ForgePingResponse> {
+    const args: string[] = ["PING"];
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.ForgePingResponse>;
+  }
+
+  /** REGENERATE_CRL — Force regeneration of the CRL for a CA. Also accepted as `CA REGENERATE_CRL <name>`. */
+  async regenerateCrl(ca: string): Promise<types.ForgeRegenerateCrlResponse> {
+    const args: string[] = ["REGENERATE_CRL"];
+    args.push(String(ca));
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.ForgeRegenerateCrlResponse>;
   }
 
   /** RENEW — Renew a certificate (re-issue with same profile and SANs) */
