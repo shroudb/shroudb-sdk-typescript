@@ -113,6 +113,7 @@ const { status, plaintext_key, wrapped_key, key_version } = await db.cipher.gene
 | `passwordChange` | `schema, id, old, new` | `{ status }` | Sugar: change password. Infers credential field from schema. Equivalent to CREDENTIAL CHANGE with implicit field. |
 | `passwordImport` | `schema, id, hash, options?` | `{ algorithm, status }` | Sugar: import pre-hashed password. Infers credential field from schema. Equivalent to CREDENTIAL IMPORT with implicit field. |
 | `passwordReset` | `schema, id, new` | `{ status }` | Sugar: force-reset password. Infers credential field from schema. Equivalent to CREDENTIAL RESET with implicit field. |
+| `ping` | `` | `{ status }` | Ping-pong connectivity test |
 | `schemaAlter` | `name, action, options?` | `{ fields, name, status, version }` | Add or remove fields from a schema, producing a new version. Added fields are optional (required=false). Existing envelopes remain readable. |
 | `schemaGet` | `name` | `{}` | Get a schema definition by name |
 | `schemaList` | `` | `{}` | List all registered schema names |

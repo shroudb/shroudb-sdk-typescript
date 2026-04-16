@@ -91,6 +91,11 @@ export interface SigilPasswordResetResponse {
   status: string;
 }
 
+/** Response from `sigil.PING()`. */
+export interface SigilPingResponse {
+  status: string;
+}
+
 /** Response from `sigil.SCHEMA_ALTER()`. */
 export interface SigilSchemaAlterResponse {
   fields: number;

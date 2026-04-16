@@ -162,6 +162,12 @@ export class SigilNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilPasswordResetResponse>;
   }
 
+  /** PING — Ping-pong connectivity test */
+  async ping(): Promise<types.SigilPingResponse> {
+    const args: string[] = ["PING"];
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilPingResponse>;
+  }
+
   /** SCHEMA ALTER — Add or remove fields from a schema, producing a new version. Added fields are optional (required=false). Existing envelopes remain readable. */
   async schemaAlter(name: string, action: string, options?: {
     field_json?: Record<string, unknown>;
