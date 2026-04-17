@@ -13,6 +13,33 @@ export interface Transport {
   /** Execute a command and return the parsed response. */
   execute(engine: string, args: string[]): Promise<CommandResult>;
 
+  /**
+   * Execute N independent commands in one round-trip (client-side pipelining).
+   *
+   * Sends each command as a separate RESP3 frame on a single connection and
+   * collects N responses in order. Unlike `executePipeline`, this is **not**
+   * atomic — each command is independently dispatched, authorized, and
+   * audited by the server. Use this for read-heavy batches that want to
+   * collapse round-trip latency without atomicity.
+   */
+  executeMany(engine: string, argsList: string[][]): Promise<CommandResult[]>;
+
+  /**
+   * Execute a server-side atomic PIPELINE.
+   *
+   * Sends `PIPELINE` with N nested sub-command arrays in a single RESP3 frame
+   * and returns one result per sub-command, in order. Pass `requestId` for
+   * idempotent retry — repeated calls with the same ID return the cached result
+   * without re-executing.
+   *
+   * Only supported over RESP3; HTTP transports throw `NotSupportedError`.
+   */
+  executePipeline(
+    engine: string,
+    commands: string[][],
+    requestId?: string,
+  ): Promise<CommandResult[]>;
+
   /** Send a command without waiting for a response (pipeline buffering). */
   buffer(engine: string, args: string[]): void;
 

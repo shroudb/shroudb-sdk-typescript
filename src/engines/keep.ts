@@ -43,6 +43,20 @@ export class KeepNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.KeepGetResponse>;
   }
 
+  /** GET — batch variant: pipelines N independent calls over one connection (ordered, not atomic). */
+  async getMany(calls: Array<{
+    path: string;
+    version?: string;
+  }>): Promise<types.KeepGetResponse[]> {
+    const argsList: string[][] = calls.map((call) => {
+      const args: string[] = ["GET"];
+      args.push(String(call.path));
+      if (call.version !== undefined) { args.push("VERSION"); args.push(String(call.version)); }
+      return args;
+    });
+    return this.transport.executeMany(this.engine, argsList) as unknown as Promise<types.KeepGetResponse[]>;
+  }
+
   /** HEALTH — Health check. */
   async health(): Promise<types.KeepHealthResponse> {
     const args: string[] = ["HEALTH"];

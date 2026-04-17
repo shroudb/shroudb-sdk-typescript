@@ -157,10 +157,8 @@ export class ShroudbNamespace {
   }
 
   /** PIPELINE — Execute commands atomically (all succeed or all roll back) */
-  async pipeline(count: number): Promise<CommandResult> {
-    const args: string[] = ["PIPELINE"];
-    args.push(String(count));
-    return this.transport.execute(this.engine, args);
+  async pipeline(commands: string[][], requestId?: string): Promise<CommandResult[]> {
+    return this.transport.executePipeline(this.engine, commands, requestId);
   }
 
   /** PUT — Store a value at the given key. Auto-increments version. */

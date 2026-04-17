@@ -120,7 +120,7 @@ Encrypted key-value database
 | `namespaceList(options?)` | List namespaces (filtered by token grants) |
 | `namespaceValidate(name)` | Check existing entries against current MetaSchema |
 | `ping()` | Test connectivity |
-| `pipeline(count)` | Execute commands atomically (all succeed or all roll back) |
+| `pipeline(commands, requestId?)` | Execute commands atomically (all succeed or all roll back) |
 | `put(namespace, key, value, options?)` | Store a value at the given key. Auto-increments version. |
 | `rekey()` | Begin online rekey (zero-downtime master key rotation) |
 | `rekeyStatus()` | Query progress of an in-flight rekey operation |

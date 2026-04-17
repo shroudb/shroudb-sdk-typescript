@@ -60,6 +60,43 @@ class Connection {
     });
   }
 
+  async executePipelineFrame(
+    prefix: string[],
+    commands: string[][],
+    requestId: string | undefined,
+  ): Promise<WireValue> {
+    // Wire format:
+    //   *N\r\n
+    //   $<..>\r\n<prefix args>\r\n   (e.g. PIPELINE, or ENGINE PIPELINE via Moat)
+    //   [$10\r\nREQUEST_ID\r\n $<len>\r\n<id>\r\n]  (optional)
+    //   *M\r\n <sub-command bulk strings> ...    (x N commands)
+    const keywordCount = requestId !== undefined ? 2 : 0;
+    const outerLen = prefix.length + keywordCount + commands.length;
+    let frame = `*${outerLen}\r\n`;
+    for (const p of prefix) {
+      const bytes = Buffer.byteLength(p, "utf-8");
+      frame += `$${bytes}\r\n${p}\r\n`;
+    }
+    if (requestId !== undefined) {
+      frame += `$10\r\nREQUEST_ID\r\n`;
+      const idBytes = Buffer.byteLength(requestId, "utf-8");
+      frame += `$${idBytes}\r\n${requestId}\r\n`;
+    }
+    for (const sub of commands) {
+      frame += `*${sub.length}\r\n`;
+      for (const arg of sub) {
+        const bytes = Buffer.byteLength(arg, "utf-8");
+        frame += `$${bytes}\r\n${arg}\r\n`;
+      }
+    }
+    this.socket.write(frame);
+    return new Promise<WireValue>((resolve, reject) => {
+      this.resolveQueue.push(resolve);
+      this.rejectQueue.push(reject);
+      this.drain();
+    });
+  }
+
   bufferCommand(args: string[]): void {
     this.sendRaw(args);
     this.pendingBuffered.push("queued");
@@ -260,6 +297,35 @@ export class Resp3Transport implements Transport {
     }
   }
 
+  async executeMany(_engine: string, argsList: string[][]): Promise<CommandResult[]> {
+    if (argsList.length === 0) return [];
+    const conn = await this.pool.acquire();
+    try {
+      for (const args of argsList) conn.bufferCommand(args);
+      const raw = await conn.flushBuffered();
+      return raw.map(parseResponse);
+    } finally {
+      this.pool.release(conn);
+    }
+  }
+
+  async executePipeline(
+    _engine: string,
+    commands: string[][],
+    requestId?: string,
+  ): Promise<CommandResult[]> {
+    const conn = await this.pool.acquire();
+    try {
+      const raw = await conn.executePipelineFrame(["PIPELINE"], commands, requestId);
+      if (!Array.isArray(raw)) {
+        throw new ShrouDBError("ERR", "PIPELINE response was not an array");
+      }
+      return raw.map(parseResponse);
+    } finally {
+      this.pool.release(conn);
+    }
+  }
+
   buffer(_engine: string, args: string[]): void {
     this.bufferedArgs.push(args);
   }
@@ -309,6 +375,40 @@ export class MoatResp3Transport implements Transport {
     try {
       const raw = await conn.execute(...prefixed);
       return parseResponse(raw);
+    } finally {
+      this.pool.release(conn);
+    }
+  }
+
+  async executeMany(engine: string, argsList: string[][]): Promise<CommandResult[]> {
+    if (argsList.length === 0) return [];
+    const prefix = engine.toUpperCase();
+    const conn = await this.pool.acquire();
+    try {
+      for (const args of argsList) conn.bufferCommand([prefix, ...args]);
+      const raw = await conn.flushBuffered();
+      return raw.map(parseResponse);
+    } finally {
+      this.pool.release(conn);
+    }
+  }
+
+  async executePipeline(
+    engine: string,
+    commands: string[][],
+    requestId?: string,
+  ): Promise<CommandResult[]> {
+    const conn = await this.pool.acquire();
+    try {
+      const raw = await conn.executePipelineFrame(
+        [engine.toUpperCase(), "PIPELINE"],
+        commands,
+        requestId,
+      );
+      if (!Array.isArray(raw)) {
+        throw new ShrouDBError("ERR", "PIPELINE response was not an array");
+      }
+      return raw.map(parseResponse);
     } finally {
       this.pool.release(conn);
     }

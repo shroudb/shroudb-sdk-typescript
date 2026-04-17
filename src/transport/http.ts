@@ -22,6 +22,26 @@ export class HttpTransport implements Transport {
     }
   }
 
+  async executeMany(engine: string, argsList: string[][]): Promise<CommandResult[]> {
+    // HTTP has no pipelining; fall back to sequential requests, returning in order.
+    const results: CommandResult[] = [];
+    for (const args of argsList) {
+      results.push(await this.execute(engine, args));
+    }
+    return results;
+  }
+
+  async executePipeline(
+    _engine: string,
+    _commands: string[][],
+    _requestId?: string,
+  ): Promise<CommandResult[]> {
+    throw ShrouDBError._fromServer(
+      "NOT_SUPPORTED",
+      "PIPELINE is a RESP3-only command; use Resp3Transport or MoatResp3Transport",
+    );
+  }
+
   async execute(engine: string, args: string[]): Promise<CommandResult> {
     const prefix = this.prefixes.get(engine) ?? `/v1/${engine}`;
     const url = `${this.baseUrl}${prefix}`;
