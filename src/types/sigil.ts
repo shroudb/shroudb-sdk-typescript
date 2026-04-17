@@ -75,6 +75,15 @@ export interface SigilHealthResponse {
   status: string;
 }
 
+/** Response from `sigil.HELLO()`. */
+export interface SigilHelloResponse {
+  capabilities: unknown[];
+  commands: unknown[];
+  engine: string;
+  protocol: string;
+  version: string;
+}
+
 /** Response from `sigil.PASSWORD_CHANGE()`. */
 export interface SigilPasswordChangeResponse {
   status: string;

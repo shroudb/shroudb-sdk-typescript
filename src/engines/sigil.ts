@@ -122,6 +122,12 @@ export class SigilNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilHealthResponse>;
   }
 
+  /** HELLO — Engine identity handshake — returns engine name, version, wire protocol, supported commands, and capability tags. Pre-auth; clients issue this on connect to verify they are talking to the expected engine and version. */
+  async hello(): Promise<types.SigilHelloResponse> {
+    const args: string[] = ["HELLO"];
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilHelloResponse>;
+  }
+
   /** JWKS — Get the JSON Web Key Set for external token verification */
   async jwks(schema: string): Promise<CommandResult> {
     const args: string[] = ["JWKS"];

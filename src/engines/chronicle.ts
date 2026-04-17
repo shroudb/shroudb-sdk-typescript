@@ -63,6 +63,12 @@ export class ChronicleNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ChronicleHealthResponse>;
   }
 
+  /** HELLO — Engine identity handshake — returns engine name, version, wire protocol, supported commands, and capability tags. Pre-auth; clients issue this on connect to verify they are talking to the expected engine and version. */
+  async hello(): Promise<types.ChronicleHelloResponse> {
+    const args: string[] = ["HELLO"];
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.ChronicleHelloResponse>;
+  }
+
   /** HOTSPOTS — Top 20 resources by access count in the given time window */
   async hotspots(options?: {
     filter_args?: unknown;

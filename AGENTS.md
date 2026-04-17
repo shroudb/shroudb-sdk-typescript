@@ -76,6 +76,7 @@ const { version } = await db.shroudb.delete('namespace', 'key');
 | `encrypt` | `keyring, plaintext, options?` | `{ status, ciphertext, key_version }` | Encrypt plaintext with the active key version |
 | `generateDataKey` | `keyring, options?` | `{ status, plaintext_key, wrapped_key, key_version }` | Generate a data encryption key (envelope encryption pattern) |
 | `health` | `` | `{ status }` | Check server health |
+| `hello` | `` | `{ engine, version, protocol, commands, capabilities }` | Engine identity handshake — returns engine name, version, wire protocol, supported commands, and capability tags. Pre-auth; clients issue this on connect to verify they are talking to the expected engine and version. |
 | `keyInfo` | `keyring` | `{ keyring, algorithm, active_version, versions }` | Get keyring metadata and key version information |
 | `keyringCreate` | `name, algorithm, options?` | `{ status, keyring, algorithm, active_version }` | Create a new keyring with its first active key |
 | `keyringList` | `` | `{ keyrings }` | List all keyring names |
@@ -109,6 +110,7 @@ const { status, plaintext_key, wrapped_key, key_version } = await db.cipher.gene
 | `envelopeUpdate` | `schema, id, json` | `{ entity_id, fields, status, updated_at }` | Update non-credential fields on an existing envelope |
 | `envelopeVerify` | `schema, id, field, value` | `{ status, valid }` | Verify a credential field on an envelope by explicit field name |
 | `health` | `` | `{ status }` | Health check |
+| `hello` | `` | `{ capabilities, commands, engine, protocol, version }` | Engine identity handshake — returns engine name, version, wire protocol, supported commands, and capability tags. Pre-auth; clients issue this on connect to verify they are talking to the expected engine and version. |
 | `jwks` | `schema` | `{}` | Get the JSON Web Key Set for external token verification |
 | `passwordChange` | `schema, id, old, new` | `{ status }` | Sugar: change password. Infers credential field from schema. Equivalent to CREDENTIAL CHANGE with implicit field. |
 | `passwordImport` | `schema, id, hash, options?` | `{ algorithm, status }` | Sugar: import pre-hashed password. Infers credential field from schema. Equivalent to CREDENTIAL IMPORT with implicit field. |
@@ -148,6 +150,7 @@ const { status } = await db.sigil.credentialReset('myapp', 'alice', 'email', 'ne
 | `commandList` | `` | `{ count, commands }` | List all supported commands |
 | `delete` | `index, id` | `{ status, id }` | Remove an entry's blind tokens from the index |
 | `health` | `` | `{ status }` | Health check |
+| `hello` | `` | `{ engine, version, protocol, commands, capabilities }` | Engine identity handshake — returns engine name, version, wire protocol, supported commands, and capability tags. Pre-auth; clients issue this on connect to verify they are talking to the expected engine and version. |
 | `indexCreate` | `name` | `{ status, index, created_at, tokenizer_version }` | Create a new blind index with a fresh HMAC key |
 | `indexDestroy` | `name` | `{ status, index, deleted_entries }` | Crypto-shred an index: zeroize the HMAC key, delete all entries, and remove the index. After destruction, the index name can be reused. |
 | `indexInfo` | `name` | `{ index, created_at, entry_count, tokenizer_version }` | Get information about a blind index |
@@ -176,6 +179,7 @@ const { status, index, deleted_entries } = await db.veil.indexDestroy('my-keyrin
 | `commandList` | `` | `{ commands, status }` | List all supported commands |
 | `evaluate` | `json` | `{ cache_until, decision, matched_policy, status, token }` | Evaluate an authorization request against policies and return a signed decision |
 | `health` | `` | `{ policy_count, status }` | Server health check |
+| `hello` | `` | `{ capabilities, commands, engine, protocol, version }` | Engine identity handshake — returns engine name, version, wire protocol, supported commands, and capability tags. Pre-auth; clients issue this on connect to verify they are talking to the expected engine and version. |
 | `jwks` | `` | `{ keys }` | Get the JSON Web Key Set for verifying decision tokens |
 | `keyInfo` | `` | `{ active_kid, active_version, algorithm, decision_ttl_secs, drain_days, jwks_keys, rotation_days, status, total_versions }` | Get signing key metadata |
 | `keyRotate` | `options?` | `{ key_version, previous_version, rotated, status }` | Rotate the signing key |
@@ -209,6 +213,7 @@ const { status } = await db.sentry.policyDelete('name');
 | `configGet` | `key` | `{ key, status, value }` | Get a runtime configuration value |
 | `configSet` | `key, value` | `{ key, status, value }` | Set a runtime configuration value (only scheduler_interval_secs is mutable) |
 | `health` | `` | `{ status }` | Health check |
+| `hello` | `` | `{ capabilities, commands, engine, protocol, version }` | Engine identity handshake — returns engine name, version, wire protocol, supported commands, and capability tags. Pre-auth; clients issue this on connect to verify they are talking to the expected engine and version. |
 | `inspect` | `ca, serial` | `{ certificate_pem, serial, state, subject }` | Get certificate details |
 | `issue` | `ca, subject, profile, options?` | `{ certificate_pem, private_key_pem, serial }` | Issue a new certificate. Returns cert + private key (private key never stored). |
 | `issueFromCsr` | `ca, csr_pem, profile, options?` | `{ certificate_pem, serial }` | Issue a certificate from a PEM-encoded CSR |
@@ -235,6 +240,7 @@ const { algorithm, key_versions, name, subject } = await db.forge.caInfo('name')
 | `delete` | `path` | `{ status, path, deleted_at }` | Soft-delete a secret. Version history is preserved. |
 | `get` | `path, options?` | `{ status, path, version, value, created_at, created_by }` | Retrieve a secret value. Returns the latest version by default. |
 | `health` | `` | `{ status }` | Health check. |
+| `hello` | `` | `{ engine, version, protocol, commands, capabilities }` | Engine identity handshake — returns engine name, version, wire protocol, supported commands, and capability tags. Pre-auth; clients issue this on connect to verify they are talking to the expected engine and version. |
 | `list` | `prefix?` | `{ status, count, paths }` | List secret paths, optionally filtered by prefix. Excludes deleted secrets. |
 | `ping` | `` | `{}` | Ping-pong. |
 | `purge` | `path` | `{ status, path, purged_at }` | Permanently remove a secret and all its versions. Irreversible — used for GDPR right-to-erasure compliance. After purge, GET returns not-found (not deleted). |
@@ -265,6 +271,7 @@ const { status, count, paths } = await db.keep.list('prefix');
 | `deliveryGet` | `id` | `{ channel, delivered_at, delivery_id, error, status }` | Get a delivery receipt by ID |
 | `deliveryList` | `options?` | `{ count, receipts, status }` | List delivery receipts, optionally filtered by channel |
 | `health` | `` | `{ channels, status }` | Server health check |
+| `hello` | `` | `{ capabilities, commands, engine, protocol, version }` | Engine identity handshake — returns engine name, version, wire protocol, supported commands, and capability tags. Pre-auth; clients issue this on connect to verify they are talking to the expected engine and version. |
 | `metrics` | `` | `{ delivered, failed, per_channel, total_deliveries }` | Get delivery metrics (total, success, failure counts, per-channel breakdown) |
 | `notifyEvent` | `channel, subject, body` | `{ channel, delivered_at, delivery_id, status }` | Trigger a notification on a pre-configured channel (e.g. rotation/expiry alerts) |
 | `ping` | `` | `{}` | Connectivity check |
@@ -287,6 +294,7 @@ const { channel_type, created_at, enabled, name } = await db.courier.channelGet(
 | `count` | `options?` | `{ count, scanned, status }` | Count events matching filter predicates |
 | `errors` | `options?` | `{ errors, status }` | Operations ranked by error rate in the given time window |
 | `health` | `` | `{ events, status }` | Health check |
+| `hello` | `` | `{ capabilities, commands, engine, protocol, version }` | Engine identity handshake — returns engine name, version, wire protocol, supported commands, and capability tags. Pre-auth; clients issue this on connect to verify they are talking to the expected engine and version. |
 | `hotspots` | `options?` | `{ hotspots, status }` | Top 20 resources by access count in the given time window |
 | `ingest` | `event_json` | `{ status }` | Ingest a single structured audit event |
 | `ingestBatch` | `events_json` | `{ ingested, status }` | Ingest multiple events in a single call |
@@ -309,6 +317,7 @@ const { ingested, status } = await db.chronicle.ingestBatch({ /* fields */ });
 | `command` | `` | `{}` | List supported commands |
 | `fingerprint` | `id, viewer_id, options?` | `{ created_at, s3_key, status, viewer_id }` | Create a viewer-specific encrypted copy of a blob for leak tracing |
 | `health` | `` | `{}` | Health check |
+| `hello` | `` | `{ capabilities, commands, engine, protocol, version }` | Engine identity handshake — returns engine name, version, wire protocol, supported commands, and capability tags. Pre-auth; clients issue this on connect to verify they are talking to the expected engine and version. |
 | `inspect` | `id` | `{ blob_status, client_encrypted, content_type, created_at, encrypted_size, id, key_version, keyring, plaintext_size, status, updated_at, viewer_count }` | Read blob metadata without downloading or decrypting |
 | `list` | `options?` | `{ blobs, count, status, tenant }` | List blobs for the current tenant |
 | `ping` | `` | `{}` | Ping-pong |

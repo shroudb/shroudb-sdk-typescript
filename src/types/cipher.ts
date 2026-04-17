@@ -50,6 +50,20 @@ export interface CipherHealthResponse {
   status: string;
 }
 
+/** Response from `cipher.hello()`. */
+export interface CipherHelloResponse {
+  /** Canonical engine name (e.g., "cipher") */
+  engine: string;
+  /** Engine's semantic version */
+  version: string;
+  /** Wire protocol identifier (e.g., "RESP3/1") */
+  protocol: string;
+  /** Supported command surface (uppercase, subcommands space-separated) */
+  commands: unknown[];
+  /** Cross-cutting capability tags; may be empty */
+  capabilities: unknown[];
+}
+
 /** Response from `cipher.key_info()`. */
 export interface CipherKeyInfoResponse {
   /** Keyring name */

@@ -62,6 +62,15 @@ export interface ForgeHealthResponse {
   status: string;
 }
 
+/** Response from `forge.HELLO()`. */
+export interface ForgeHelloResponse {
+  capabilities: unknown[];
+  commands: unknown[];
+  engine: string;
+  protocol: string;
+  version: string;
+}
+
 /** Response from `forge.INSPECT()`. */
 export interface ForgeInspectResponse {
   certificate_pem: string;

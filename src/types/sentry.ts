@@ -26,6 +26,15 @@ export interface SentryHealthResponse {
   status: string;
 }
 
+/** Response from `sentry.HELLO()`. */
+export interface SentryHelloResponse {
+  capabilities: unknown[];
+  commands: unknown[];
+  engine: string;
+  protocol: string;
+  version: string;
+}
+
 /** Response from `sentry.JWKS()`. */
 export interface SentryJwksResponse {
   keys: unknown[];

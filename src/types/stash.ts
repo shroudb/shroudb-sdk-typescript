@@ -8,6 +8,15 @@ export interface StashFingerprintResponse {
   viewer_id: string;
 }
 
+/** Response from `stash.hello()`. */
+export interface StashHelloResponse {
+  capabilities: unknown[];
+  commands: unknown[];
+  engine: string;
+  protocol: string;
+  version: string;
+}
+
 /** Response from `stash.inspect()`. */
 export interface StashInspectResponse {
   blob_status: string;

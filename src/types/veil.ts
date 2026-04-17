@@ -22,6 +22,15 @@ export interface VeilHealthResponse {
   status: unknown;
 }
 
+/** Response from `veil.HELLO()`. */
+export interface VeilHelloResponse {
+  engine: unknown;
+  version: unknown;
+  protocol: unknown;
+  commands: unknown;
+  capabilities: unknown;
+}
+
 /** Response from `veil.INDEX_CREATE()`. */
 export interface VeilIndexCreateResponse {
   status: unknown;

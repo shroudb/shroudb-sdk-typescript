@@ -38,6 +38,12 @@ export class VeilNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.VeilHealthResponse>;
   }
 
+  /** HELLO — Engine identity handshake — returns engine name, version, wire protocol, supported commands, and capability tags. Pre-auth; clients issue this on connect to verify they are talking to the expected engine and version. */
+  async hello(): Promise<types.VeilHelloResponse> {
+    const args: string[] = ["HELLO"];
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.VeilHelloResponse>;
+  }
+
   /** INDEX CREATE — Create a new blind index with a fresh HMAC key */
   async indexCreate(name: string): Promise<types.VeilIndexCreateResponse> {
     const args: string[] = ["INDEX", "CREATE"];

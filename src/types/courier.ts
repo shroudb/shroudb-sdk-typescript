@@ -69,6 +69,15 @@ export interface CourierHealthResponse {
   status: string;
 }
 
+/** Response from `courier.HELLO()`. */
+export interface CourierHelloResponse {
+  capabilities: unknown[];
+  commands: unknown[];
+  engine: string;
+  protocol: string;
+  version: string;
+}
+
 /** Response from `courier.METRICS()`. */
 export interface CourierMetricsResponse {
   delivered: number;

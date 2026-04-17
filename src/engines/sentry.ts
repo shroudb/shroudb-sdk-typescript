@@ -37,6 +37,12 @@ export class SentryNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.SentryHealthResponse>;
   }
 
+  /** HELLO — Engine identity handshake — returns engine name, version, wire protocol, supported commands, and capability tags. Pre-auth; clients issue this on connect to verify they are talking to the expected engine and version. */
+  async hello(): Promise<types.SentryHelloResponse> {
+    const args: string[] = ["HELLO"];
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.SentryHelloResponse>;
+  }
+
   /** JWKS — Get the JSON Web Key Set for verifying decision tokens */
   async jwks(): Promise<types.SentryJwksResponse> {
     const args: string[] = ["JWKS"];

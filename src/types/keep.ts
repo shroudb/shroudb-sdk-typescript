@@ -33,6 +33,20 @@ export interface KeepHealthResponse {
   status: string;
 }
 
+/** Response from `keep.hello()`. */
+export interface KeepHelloResponse {
+  /** Canonical engine name (e.g., "keep") */
+  engine: string;
+  /** Engine's semantic version */
+  version: string;
+  /** Wire protocol identifier (e.g., "RESP3/1") */
+  protocol: string;
+  /** Supported command surface (uppercase, subcommands space-separated) */
+  commands: unknown[];
+  /** Cross-cutting capability tags; may be empty */
+  capabilities: unknown[];
+}
+
 /** Response from `keep.list()`. */
 export interface KeepListResponse {
   status: string;

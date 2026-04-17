@@ -63,6 +63,12 @@ export class KeepNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.KeepHealthResponse>;
   }
 
+  /** HELLO — Engine identity handshake — returns engine name, version, wire protocol, supported commands, and capability tags. Pre-auth; clients issue this on connect to verify they are talking to the expected engine and version. */
+  async hello(): Promise<types.KeepHelloResponse> {
+    const args: string[] = ["HELLO"];
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.KeepHelloResponse>;
+  }
+
   /** LIST — List secret paths, optionally filtered by prefix. Excludes deleted secrets. */
   async list(prefix?: string): Promise<types.KeepListResponse> {
     const args: string[] = ["LIST"];

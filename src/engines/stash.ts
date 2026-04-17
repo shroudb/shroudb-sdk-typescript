@@ -43,6 +43,12 @@ export class StashNamespace {
     return this.transport.execute(this.engine, args);
   }
 
+  /** HELLO — Engine identity handshake — returns engine name, version, wire protocol, supported commands, and capability tags. Pre-auth; clients issue this on connect to verify they are talking to the expected engine and version. */
+  async hello(): Promise<types.StashHelloResponse> {
+    const args: string[] = ["HELLO"];
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.StashHelloResponse>;
+  }
+
   /** INSPECT — Read blob metadata without downloading or decrypting */
   async inspect(id: string): Promise<types.StashInspectResponse> {
     const args: string[] = ["INSPECT"];

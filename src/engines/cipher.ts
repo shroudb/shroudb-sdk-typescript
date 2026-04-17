@@ -72,6 +72,12 @@ export class CipherNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.CipherHealthResponse>;
   }
 
+  /** HELLO — Engine identity handshake — returns engine name, version, wire protocol, supported commands, and capability tags. Pre-auth; clients issue this on connect to verify they are talking to the expected engine and version. */
+  async hello(): Promise<types.CipherHelloResponse> {
+    const args: string[] = ["HELLO"];
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.CipherHelloResponse>;
+  }
+
   /** KEY_INFO — Get keyring metadata and key version information */
   async keyInfo(keyring: string): Promise<types.CipherKeyInfoResponse> {
     const args: string[] = ["KEY_INFO"];

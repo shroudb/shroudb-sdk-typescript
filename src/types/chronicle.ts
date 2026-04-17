@@ -35,6 +35,15 @@ export interface ChronicleHealthResponse {
   status: string;
 }
 
+/** Response from `chronicle.HELLO()`. */
+export interface ChronicleHelloResponse {
+  capabilities: unknown[];
+  commands: unknown[];
+  engine: string;
+  protocol: string;
+  version: string;
+}
+
 /** Response from `chronicle.HOTSPOTS()`. */
 export interface ChronicleHotspotsResponse {
   hotspots: unknown[];

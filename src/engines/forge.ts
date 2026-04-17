@@ -96,6 +96,12 @@ export class ForgeNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ForgeHealthResponse>;
   }
 
+  /** HELLO — Engine identity handshake — returns engine name, version, wire protocol, supported commands, and capability tags. Pre-auth; clients issue this on connect to verify they are talking to the expected engine and version. */
+  async hello(): Promise<types.ForgeHelloResponse> {
+    const args: string[] = ["HELLO"];
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.ForgeHelloResponse>;
+  }
+
   /** INSPECT — Get certificate details */
   async inspect(ca: string, serial: string): Promise<types.ForgeInspectResponse> {
     const args: string[] = ["INSPECT"];
