@@ -47,6 +47,27 @@ export class ShroudbNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ShroudbDeleteResponse>;
   }
 
+  /** DELIF — Compare-and-swap DELETE. Writes a tombstone only if the key's current active version equals EXPECT. On mismatch returns VERSIONCONFLICT. Missing or tombstoned keys return NOTFOUND regardless of EXPECT. */
+  async delif(namespace: string, key: string, options?: {
+    expect?: number;
+  }): Promise<types.ShroudbDelifResponse> {
+    const args: string[] = ["DELIF"];
+    args.push(String(namespace));
+    args.push(String(key));
+    if (options) {
+      if (options.expect !== undefined) { args.push("EXPECT"); args.push(String(options.expect)); }
+    }
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.ShroudbDelifResponse>;
+  }
+
+  /** DELPREFIX — Tombstone every active key in the namespace whose byte representation starts with the given prefix. Held under the per-namespace write lock. Empty prefix is rejected — use NAMESPACE DROP for full teardown. Over the per-call cap, returns PREFIXTOOLARGE with no partial deletion. */
+  async delprefix(namespace: string, prefix: string): Promise<types.ShroudbDelprefixResponse> {
+    const args: string[] = ["DELPREFIX"];
+    args.push(String(namespace));
+    args.push(String(prefix));
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.ShroudbDelprefixResponse>;
+  }
+
   /** GET — Retrieve the value at a key */
   async get(namespace: string, key: string, META?: boolean, options?: {
     version?: number;
@@ -164,6 +185,7 @@ export class ShroudbNamespace {
   /** PUT — Store a value at the given key. Auto-increments version. */
   async put(namespace: string, key: string, value?: string, options?: {
     meta?: Record<string, unknown>;
+    ttl?: number;
   }): Promise<types.ShroudbPutResponse> {
     const args: string[] = ["PUT"];
     args.push(String(namespace));
@@ -171,8 +193,25 @@ export class ShroudbNamespace {
     if (value !== undefined) args.push(String(value));
     if (options) {
       if (options.meta !== undefined) { args.push("META"); args.push(typeof options.meta === 'string' ? options.meta : JSON.stringify(options.meta)); }
+      if (options.ttl !== undefined) { args.push("TTL"); args.push(String(options.ttl)); }
     }
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ShroudbPutResponse>;
+  }
+
+  /** PUTIF — Compare-and-swap PUT. Writes only if the key's current active version equals EXPECT. On mismatch returns VERSIONCONFLICT carrying the actual current version. EXPECT 0 means "key must not exist or must be tombstoned". */
+  async putif(namespace: string, key: string, value: string, options?: {
+    expect?: number;
+    meta?: Record<string, unknown>;
+  }): Promise<types.ShroudbPutifResponse> {
+    const args: string[] = ["PUTIF"];
+    args.push(String(namespace));
+    args.push(String(key));
+    args.push(String(value));
+    if (options) {
+      if (options.expect !== undefined) { args.push("EXPECT"); args.push(String(options.expect)); }
+      if (options.meta !== undefined) { args.push("META"); args.push(typeof options.meta === 'string' ? options.meta : JSON.stringify(options.meta)); }
+    }
+    return this.transport.execute(this.engine, args) as unknown as Promise<types.ShroudbPutifResponse>;
   }
 
   /** REKEY — Begin online rekey (zero-downtime master key rotation) */

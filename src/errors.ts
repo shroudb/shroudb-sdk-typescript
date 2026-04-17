@@ -72,6 +72,8 @@ export const ErrorCode = {
   PIPELINE_ABORTED: "PIPELINE_ABORTED",
   /** Operation denied by keyring policy */
   POLICY: "POLICY",
+  /** A DELPREFIX call matched more keys than the configured per-call cap. No keys were deleted. Caller should refine the prefix and retry. Wire format: `PREFIXTOOLARGE matched=<n> limit=<m>`. */
+  PREFIX_TOO_LARGE: "PREFIX_TOO_LARGE",
   /** Key version is retired — use REWRAP */
   RETIRED: "RETIRED",
   /** Blob has been soft-revoked */
@@ -96,6 +98,8 @@ export const ErrorCode = {
   VALIDATION_FAILED: "VALIDATION_FAILED",
   /** Credential verification failed (wrong password) */
   VERIFICATION_FAILED: "VERIFICATION_FAILED",
+  /** Compare-and-swap precondition failed. The error carries the actual current version so clients can retry without re-reading. Wire format: `VERSIONCONFLICT current=<n>`. */
+  VERSION_CONFLICT: "VERSION_CONFLICT",
   /** Requested version does not exist */
   VERSION_NOTFOUND: "VERSION_NOTFOUND",
   /** Requested version does not exist */

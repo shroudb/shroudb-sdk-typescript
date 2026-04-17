@@ -23,6 +23,16 @@ export interface ShroudbDeleteResponse {
   version: number;
 }
 
+/** Response from `shroudb.DELIF()`. */
+export interface ShroudbDelifResponse {
+  version: number;
+}
+
+/** Response from `shroudb.DELPREFIX()`. */
+export interface ShroudbDelprefixResponse {
+  deleted: number;
+}
+
 /** Response from `shroudb.GET()`. */
 export interface ShroudbGetResponse {
   key: unknown;
@@ -68,6 +78,11 @@ export interface ShroudbPingResponse {
 
 /** Response from `shroudb.PUT()`. */
 export interface ShroudbPutResponse {
+  version: number;
+}
+
+/** Response from `shroudb.PUTIF()`. */
+export interface ShroudbPutifResponse {
   version: number;
 }
 

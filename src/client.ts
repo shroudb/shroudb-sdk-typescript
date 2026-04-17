@@ -102,7 +102,7 @@ export class ShrouDB {
     } else if (defaultTransport) {
       this.shroudb = new ShroudbNamespace(defaultTransport, "shroudb");
     } else {
-      this.shroudb = new ShroudbNamespace({ execute: () => { throw new Error('No transport configured for shroudb. Provide a moat URL or shroudb URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "shroudb");
+      this.shroudb = new ShroudbNamespace({ execute: () => { throw new Error('No transport configured for shroudb. Provide a moat URL or shroudb URI.'); }, executeMany: () => { throw new Error('No transport configured for shroudb. Provide a moat URL or shroudb URI.'); }, executePipeline: () => { throw new Error('No transport configured for shroudb. Provide a moat URL or shroudb URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "shroudb");
     }
 
     if (options.cipher) {
@@ -112,7 +112,7 @@ export class ShrouDB {
     } else if (defaultTransport) {
       this.cipher = new CipherNamespace(defaultTransport, "cipher");
     } else {
-      this.cipher = new CipherNamespace({ execute: () => { throw new Error('No transport configured for cipher. Provide a moat URL or cipher URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "cipher");
+      this.cipher = new CipherNamespace({ execute: () => { throw new Error('No transport configured for cipher. Provide a moat URL or cipher URI.'); }, executeMany: () => { throw new Error('No transport configured for cipher. Provide a moat URL or cipher URI.'); }, executePipeline: () => { throw new Error('No transport configured for cipher. Provide a moat URL or cipher URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "cipher");
     }
 
     if (options.sigil) {
@@ -122,7 +122,7 @@ export class ShrouDB {
     } else if (defaultTransport) {
       this.sigil = new SigilNamespace(defaultTransport, "sigil");
     } else {
-      this.sigil = new SigilNamespace({ execute: () => { throw new Error('No transport configured for sigil. Provide a moat URL or sigil URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "sigil");
+      this.sigil = new SigilNamespace({ execute: () => { throw new Error('No transport configured for sigil. Provide a moat URL or sigil URI.'); }, executeMany: () => { throw new Error('No transport configured for sigil. Provide a moat URL or sigil URI.'); }, executePipeline: () => { throw new Error('No transport configured for sigil. Provide a moat URL or sigil URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "sigil");
     }
 
     if (options.veil) {
@@ -132,7 +132,7 @@ export class ShrouDB {
     } else if (defaultTransport) {
       this.veil = new VeilNamespace(defaultTransport, "veil");
     } else {
-      this.veil = new VeilNamespace({ execute: () => { throw new Error('No transport configured for veil. Provide a moat URL or veil URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "veil");
+      this.veil = new VeilNamespace({ execute: () => { throw new Error('No transport configured for veil. Provide a moat URL or veil URI.'); }, executeMany: () => { throw new Error('No transport configured for veil. Provide a moat URL or veil URI.'); }, executePipeline: () => { throw new Error('No transport configured for veil. Provide a moat URL or veil URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "veil");
     }
 
     if (options.sentry) {
@@ -142,7 +142,7 @@ export class ShrouDB {
     } else if (defaultTransport) {
       this.sentry = new SentryNamespace(defaultTransport, "sentry");
     } else {
-      this.sentry = new SentryNamespace({ execute: () => { throw new Error('No transport configured for sentry. Provide a moat URL or sentry URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "sentry");
+      this.sentry = new SentryNamespace({ execute: () => { throw new Error('No transport configured for sentry. Provide a moat URL or sentry URI.'); }, executeMany: () => { throw new Error('No transport configured for sentry. Provide a moat URL or sentry URI.'); }, executePipeline: () => { throw new Error('No transport configured for sentry. Provide a moat URL or sentry URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "sentry");
     }
 
     if (options.forge) {
@@ -152,7 +152,7 @@ export class ShrouDB {
     } else if (defaultTransport) {
       this.forge = new ForgeNamespace(defaultTransport, "forge");
     } else {
-      this.forge = new ForgeNamespace({ execute: () => { throw new Error('No transport configured for forge. Provide a moat URL or forge URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "forge");
+      this.forge = new ForgeNamespace({ execute: () => { throw new Error('No transport configured for forge. Provide a moat URL or forge URI.'); }, executeMany: () => { throw new Error('No transport configured for forge. Provide a moat URL or forge URI.'); }, executePipeline: () => { throw new Error('No transport configured for forge. Provide a moat URL or forge URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "forge");
     }
 
     if (options.keep) {
@@ -162,7 +162,7 @@ export class ShrouDB {
     } else if (defaultTransport) {
       this.keep = new KeepNamespace(defaultTransport, "keep");
     } else {
-      this.keep = new KeepNamespace({ execute: () => { throw new Error('No transport configured for keep. Provide a moat URL or keep URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "keep");
+      this.keep = new KeepNamespace({ execute: () => { throw new Error('No transport configured for keep. Provide a moat URL or keep URI.'); }, executeMany: () => { throw new Error('No transport configured for keep. Provide a moat URL or keep URI.'); }, executePipeline: () => { throw new Error('No transport configured for keep. Provide a moat URL or keep URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "keep");
     }
 
     if (options.courier) {
@@ -172,7 +172,7 @@ export class ShrouDB {
     } else if (defaultTransport) {
       this.courier = new CourierNamespace(defaultTransport, "courier");
     } else {
-      this.courier = new CourierNamespace({ execute: () => { throw new Error('No transport configured for courier. Provide a moat URL or courier URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "courier");
+      this.courier = new CourierNamespace({ execute: () => { throw new Error('No transport configured for courier. Provide a moat URL or courier URI.'); }, executeMany: () => { throw new Error('No transport configured for courier. Provide a moat URL or courier URI.'); }, executePipeline: () => { throw new Error('No transport configured for courier. Provide a moat URL or courier URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "courier");
     }
 
     if (options.chronicle) {
@@ -182,7 +182,7 @@ export class ShrouDB {
     } else if (defaultTransport) {
       this.chronicle = new ChronicleNamespace(defaultTransport, "chronicle");
     } else {
-      this.chronicle = new ChronicleNamespace({ execute: () => { throw new Error('No transport configured for chronicle. Provide a moat URL or chronicle URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "chronicle");
+      this.chronicle = new ChronicleNamespace({ execute: () => { throw new Error('No transport configured for chronicle. Provide a moat URL or chronicle URI.'); }, executeMany: () => { throw new Error('No transport configured for chronicle. Provide a moat URL or chronicle URI.'); }, executePipeline: () => { throw new Error('No transport configured for chronicle. Provide a moat URL or chronicle URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "chronicle");
     }
 
     if (options.stash) {
@@ -192,7 +192,7 @@ export class ShrouDB {
     } else if (defaultTransport) {
       this.stash = new StashNamespace(defaultTransport, "stash");
     } else {
-      this.stash = new StashNamespace({ execute: () => { throw new Error('No transport configured for stash. Provide a moat URL or stash URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "stash");
+      this.stash = new StashNamespace({ execute: () => { throw new Error('No transport configured for stash. Provide a moat URL or stash URI.'); }, executeMany: () => { throw new Error('No transport configured for stash. Provide a moat URL or stash URI.'); }, executePipeline: () => { throw new Error('No transport configured for stash. Provide a moat URL or stash URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "stash");
     }
 
   }
