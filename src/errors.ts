@@ -12,12 +12,16 @@ export const ErrorCode = {
   BADARG: "BADARG",
   /** Missing or malformed command argument */
   BAD_ARG: "BAD_ARG",
+  /** Required engine capability is not configured (e.g. Cipher) */
+  CAPABILITY: "CAPABILITY",
   /** Required engine capability not available (e.g., Cipher for PII fields) */
   CAPABILITY_MISSING: "CAPABILITY_MISSING",
   /** Cipher engine not available for envelope encryption */
   CIPHER_UNAVAILABLE: "CIPHER_UNAVAILABLE",
   /** Cannot fingerprint a client-encrypted blob (client manages encryption) */
   CLIENT_ENCRYPTED: "CLIENT_ENCRYPTED",
+  /** Reader group already exists, or CAS retry budget exhausted on group cursor advancement */
+  CONFLICT: "CONFLICT",
   /** Encryption or decryption failed */
   CRYPTO: "CRYPTO",
   /** Cipher decryption failed */

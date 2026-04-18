@@ -13,6 +13,7 @@ import { KeepNamespace } from './engines/keep.js';
 import { CourierNamespace } from './engines/courier.js';
 import { ChronicleNamespace } from './engines/chronicle.js';
 import { StashNamespace } from './engines/stash.js';
+import { ScrollNamespace } from './engines/scroll.js';
 
 export interface ShrouDBOptions {
   /**
@@ -47,6 +48,8 @@ export interface ShrouDBOptions {
   chronicle?: string;
   /** Direct stash URI (overrides Moat for this engine). */
   stash?: string;
+  /** Direct scroll URI (overrides Moat for this engine). */
+  scroll?: string;
 }
 
 /**
@@ -69,6 +72,7 @@ export class ShrouDB {
   public readonly courier: CourierNamespace;
   public readonly chronicle: ChronicleNamespace;
   public readonly stash: StashNamespace;
+  public readonly scroll: ScrollNamespace;
 
   private transports: Transport[] = [];
 
@@ -88,6 +92,7 @@ export class ShrouDB {
         prefixes.set("courier", "/v1/courier");
         prefixes.set("chronicle", "/v1/chronicle");
         prefixes.set("stash", "/v1/stash");
+        prefixes.set("scroll", "/v1/scroll");
         defaultTransport = new HttpTransport(options.moat, options.token, prefixes);
       } else {
         defaultTransport = new MoatResp3Transport(options.moat);
@@ -193,6 +198,16 @@ export class ShrouDB {
       this.stash = new StashNamespace(defaultTransport, "stash");
     } else {
       this.stash = new StashNamespace({ execute: () => { throw new Error('No transport configured for stash. Provide a moat URL or stash URI.'); }, executeMany: () => { throw new Error('No transport configured for stash. Provide a moat URL or stash URI.'); }, executePipeline: () => { throw new Error('No transport configured for stash. Provide a moat URL or stash URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "stash");
+    }
+
+    if (options.scroll) {
+      const t = new Resp3Transport(options.scroll);
+      this.transports.push(t);
+      this.scroll = new ScrollNamespace(t, "scroll");
+    } else if (defaultTransport) {
+      this.scroll = new ScrollNamespace(defaultTransport, "scroll");
+    } else {
+      this.scroll = new ScrollNamespace({ execute: () => { throw new Error('No transport configured for scroll. Provide a moat URL or scroll URI.'); }, executeMany: () => { throw new Error('No transport configured for scroll. Provide a moat URL or scroll URI.'); }, executePipeline: () => { throw new Error('No transport configured for scroll. Provide a moat URL or scroll URI.'); }, buffer: () => {}, flush: async () => [], close: async () => {} }, "scroll");
     }
 
   }
