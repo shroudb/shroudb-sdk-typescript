@@ -265,12 +265,12 @@ const { status, count, paths } = await db.keep.list('prefix');
 | Method | Args | Returns | Description |
 |--------|------|---------|-------------|
 | `auth` | `token` | `{ status }` | Authenticate the connection with a token |
-| `channelCreate` | `name, type, config_json` | `{ channel_type, name, status }` | Create a delivery channel |
+| `channelCreate` | `name, type, options?` | `{ channel_type, name, status }` | Create a delivery channel. Config may be supplied as a JSON blob or as keyword args. |
 | `channelDelete` | `name` | `{ name, status }` | Delete a channel |
 | `channelGet` | `name` | `{ channel_type, created_at, enabled, name }` | Get channel configuration |
 | `channelList` | `` | `{ channels, count, status }` | List all channels |
 | `commandList` | `` | `{ commands, count }` | List available commands |
-| `deliver` | `json` | `{ channel, delivered_at, delivery_id, status }` | Decrypt recipient and deliver a message |
+| `deliver` | `options?` | `{ channel, delivered_at, delivery_id, status }` | Decrypt recipient and deliver a message. Request may be a JSON DeliveryRequest or keyword args. |
 | `deliveryGet` | `id` | `{ channel, delivered_at, delivery_id, error, status }` | Get a delivery receipt by ID |
 | `deliveryList` | `options?` | `{ count, receipts, status }` | List delivery receipts, optionally filtered by channel |
 | `health` | `` | `{ channels, status }` | Server health check |
@@ -282,7 +282,7 @@ const { status, count, paths } = await db.keep.list('prefix');
 ### Examples
 
 ```typescript
-const { channel_type, name, status } = await db.courier.channelCreate('name', 'type', 'config_json');
+const { channel_type, name, status } = await db.courier.channelCreate('name', 'type');
 const { name, status } = await db.courier.channelDelete('name');
 const { channel_type, created_at, enabled, name } = await db.courier.channelGet('name');
 ```

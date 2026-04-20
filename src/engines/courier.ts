@@ -18,12 +18,18 @@ export class CourierNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.CourierAuthResponse>;
   }
 
-  /** CHANNEL CREATE — Create a delivery channel */
-  async channelCreate(name: string, type: string, config_json: string): Promise<types.CourierChannelCreateResponse> {
+  /** CHANNEL CREATE — Create a delivery channel. Config may be supplied as a JSON blob or as keyword args. */
+  async channelCreate(name: string, type: string, options?: {
+    config_json?: string;
+    URL?: string;
+  }): Promise<types.CourierChannelCreateResponse> {
     const args: string[] = ["CHANNEL", "CREATE"];
     args.push(String(name));
     args.push(String(type));
-    args.push(String(config_json));
+    if (options) {
+      if (options.config_json !== undefined) { args.push("CONFIG_JSON"); args.push(String(options.config_json)); }
+      if (options.URL !== undefined) { args.push("URL"); args.push(String(options.URL)); }
+    }
     return this.transport.execute(this.engine, args) as unknown as Promise<types.CourierChannelCreateResponse>;
   }
 
@@ -53,10 +59,24 @@ export class CourierNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.CourierCommandListResponse>;
   }
 
-  /** DELIVER — Decrypt recipient and deliver a message */
-  async deliver(json: string): Promise<types.CourierDeliverResponse> {
-    const args: string[] = ["DELIVER"];
-    args.push(String(json));
+  /** DELIVER (<json> | — Decrypt recipient and deliver a message. Request may be a JSON DeliveryRequest or keyword args. */
+  async deliver(options?: {
+    json?: string;
+    channel?: string;
+    recipient?: string;
+    SUBJECT?: string;
+    BODY?: string;
+    CONTENT_TYPE?: string;
+  }): Promise<types.CourierDeliverResponse> {
+    const args: string[] = ["DELIVER", "(<json> |"];
+    if (options) {
+      if (options.json !== undefined) { args.push("JSON"); args.push(String(options.json)); }
+      if (options.channel !== undefined) { args.push("CHANNEL"); args.push(String(options.channel)); }
+      if (options.recipient !== undefined) { args.push("RECIPIENT"); args.push(String(options.recipient)); }
+      if (options.SUBJECT !== undefined) { args.push("SUBJECT"); args.push(String(options.SUBJECT)); }
+      if (options.BODY !== undefined) { args.push("BODY"); args.push(String(options.BODY)); }
+      if (options.CONTENT_TYPE !== undefined) { args.push("CONTENT_TYPE"); args.push(String(options.CONTENT_TYPE)); }
+    }
     return this.transport.execute(this.engine, args) as unknown as Promise<types.CourierDeliverResponse>;
   }
 
