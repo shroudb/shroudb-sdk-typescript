@@ -181,11 +181,10 @@ export class SigilNamespace {
   }): Promise<types.SigilSchemaAlterResponse> {
     const args: string[] = ["SCHEMA", "ALTER"];
     args.push(String(name));
-    args.push("ADD");
     args.push(String(action));
     if (options) {
-      if (options.field_json !== undefined) { args.push("FIELD_JSON"); args.push(typeof options.field_json === 'string' ? options.field_json : JSON.stringify(options.field_json)); }
-      if (options.field_name !== undefined) { args.push("FIELD_NAME"); args.push(String(options.field_name)); }
+      if (options.field_json !== undefined) { args.push(typeof options.field_json === 'string' ? options.field_json : JSON.stringify(options.field_json)); }
+      if (options.field_name !== undefined) { args.push(String(options.field_name)); }
     }
     return this.transport.execute(this.engine, args) as unknown as Promise<types.SigilSchemaAlterResponse>;
   }

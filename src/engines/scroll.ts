@@ -161,9 +161,7 @@ export class ScrollNamespace {
   async trim(log: string, selector: string, value: number): Promise<types.ScrollTrimResponse> {
     const args: string[] = ["TRIM"];
     args.push(String(log));
-    args.push("MAX_LEN");
     args.push(String(selector));
-    args.push("TRIM");
     args.push(String(value));
     return this.transport.execute(this.engine, args) as unknown as Promise<types.ScrollTrimResponse>;
   }

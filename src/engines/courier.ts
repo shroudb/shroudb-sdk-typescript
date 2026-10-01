@@ -27,7 +27,7 @@ export class CourierNamespace {
     args.push(String(name));
     args.push(String(type));
     if (options) {
-      if (options.config_json !== undefined) { args.push("CONFIG_JSON"); args.push(String(options.config_json)); }
+      if (options.config_json !== undefined) { args.push(String(options.config_json)); }
       if (options.URL !== undefined) { args.push("URL"); args.push(String(options.URL)); }
     }
     return this.transport.execute(this.engine, args) as unknown as Promise<types.CourierChannelCreateResponse>;
@@ -59,7 +59,7 @@ export class CourierNamespace {
     return this.transport.execute(this.engine, args) as unknown as Promise<types.CourierCommandListResponse>;
   }
 
-  /** DELIVER (<json> | — Decrypt recipient and deliver a message. Request may be a JSON DeliveryRequest or keyword args. */
+  /** DELIVER — Decrypt recipient and deliver a message. Request may be a JSON DeliveryRequest or keyword args. */
   async deliver(options?: {
     json?: string;
     channel?: string;
@@ -68,11 +68,11 @@ export class CourierNamespace {
     BODY?: string;
     CONTENT_TYPE?: string;
   }): Promise<types.CourierDeliverResponse> {
-    const args: string[] = ["DELIVER", "(<json> |"];
+    const args: string[] = ["DELIVER"];
     if (options) {
-      if (options.json !== undefined) { args.push("JSON"); args.push(String(options.json)); }
-      if (options.channel !== undefined) { args.push("CHANNEL"); args.push(String(options.channel)); }
-      if (options.recipient !== undefined) { args.push("RECIPIENT"); args.push(String(options.recipient)); }
+      if (options.json !== undefined) { args.push(String(options.json)); }
+      if (options.channel !== undefined) { args.push(String(options.channel)); }
+      if (options.recipient !== undefined) { args.push(String(options.recipient)); }
       if (options.SUBJECT !== undefined) { args.push("SUBJECT"); args.push(String(options.SUBJECT)); }
       if (options.BODY !== undefined) { args.push("BODY"); args.push(String(options.BODY)); }
       if (options.CONTENT_TYPE !== undefined) { args.push("CONTENT_TYPE"); args.push(String(options.CONTENT_TYPE)); }
